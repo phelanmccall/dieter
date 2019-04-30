@@ -58,7 +58,7 @@ class App extends Component {
         <div className="container">
 
           <div className="row">
-            <input className="m-auto navbar navbar-light" type="date" onChange={this.handleDate}></input>
+            <input className="d-inline m-auto d-block" type="date" onChange={this.handleDate}></input>
 
             {
               date ? <div className="col-12 m-auto">{weekdays[date.getDay()]}, {months[date.getMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
