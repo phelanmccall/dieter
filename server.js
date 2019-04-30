@@ -8,17 +8,16 @@ require("./controller/passport");
 
 const express = require("express");
 const passport = require("passport");
+const mongoose = require("mongoose");
 
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cors = require("cors");
 const app = express();
 const routes = require("./routes");
-const db = require("./models/");
-
 const PORT = process.env.PORT || 5000;
 app.use(express.static("client/build"));
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (req.url != '/favicon.ico') {
     return next();
   } else {
@@ -56,17 +55,14 @@ app.use(routes);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
-// if force = true, will drop the db every startup
-var syncOptions = { force: false };
 
-if (process.env.NODE_ENV === "test") {
-  syncOptions.force = true;
-}
+// Connect to the Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dieter", { useNewUrlParser: true }).catch((err) => {
+  console.log(err.message)
+});
 
-db.sequelize
-  .sync(syncOptions)  
-  .then(function() {
-    app.listen(PORT, function() {
-      console.log(`Listening on port ${PORT}`);
-    });
-  });
+
+
+app.listen(PORT, function () {
+  console.log(`Listening on port ${PORT}`);
+});
