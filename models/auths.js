@@ -24,14 +24,7 @@ module.exports = function(sequelize, Datatypes) {
     //   }
     // }
   });
-  Auths.associate = model => {
-    model.Auths.belongsToMany(model.Appointment, {
-      as: "HasAppointment",
-      through: "UserAppointment"
-    });
-    // Foreign key of authId will be made in Favorite table
-    model.Auths.hasOne(model.Appointment);
-  };
+ 
 
   return Auths;
 };

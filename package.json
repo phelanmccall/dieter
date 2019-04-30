@@ -1,0 +1,38 @@
+{
+  "name": "dieter",
+  "version": "1.0.0",
+  "description": "meal planner app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phelanmccall/dieter.git"
+  },
+  "keywords": [
+    "meal",
+    "planner",
+    "diet",
+    "dieter"
+  ],
+  "author": "Phelan McCall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phelanmccall/dieter/issues"
+  },
+  "homepage": "https://github.com/phelanmccall/dieter#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "mysql2": "^1.6.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.8.0"
+  }
+}
