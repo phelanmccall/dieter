@@ -5,35 +5,20 @@ class Header extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-inverse">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                        <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                        </button>
-                        <a className="navbar-brand" href="#">WebSiteName</a>
-                    </div>
-                    <div className="collapse navbar-collapse" id="myNavbar">
-                        <ul className="nav navbar-nav">
-                            <li className="active"><a href="#">Home</a></li>
-                            <li><a href="#">Page 1</a></li>
-                            <li><a href="#">Page 2</a></li>
-                            <li><a href="#">Page 3</a></li>
-                        </ul>
-                        <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <nav className="navbar navbar-light bg-light justify-content-between">
+                <a className="navbar-brand">Navbar</a>
+                <button id="" className="btn btn-outline-success my-2 my-sm-0" type="button"
+                data-toggle="collapse" data-target="#myForm" aria-expanded="false" aria-controls="myForm"
+                >Login</button>
 
+                <form id="myForm" className="collapse form-inline">
+                    <input className="form-control mr-sm-2" type="text" name="username" placeholder="Username" aria-label="Username" />
+                    <input className="form-control mr-sm-2" type="password" name="password" placeholder="Password" aria-label="Password"></input>
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+                </form>
             </nav>
-
         );
     }
-
 }
 
 export default Header;

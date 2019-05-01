@@ -7,7 +7,7 @@ router.use(function (req, res, next) {
   var { path } = req;
   var base = "/" + path.split("/")[1];
   var date;
-  if (base === "/appointments") {
+  if (base === "/meals") {
     date = path.split("/")[2];
   }
 
@@ -17,20 +17,23 @@ router.use(function (req, res, next) {
     case "/logout":
       next();
       break;
-    case "/services":
-    case "/info":
-      if (req.method === "GET" || req.isAuthenticated()) {
-        next();
-        break;
-      } else {
-        res.redirect("/");
-        break;
-      }
-    case "/appointments":
-      if (req.method === "POST" || date) {
-        next();
-        break;
-      }
+
+    // case "/services":
+    // case "/info":
+    //   if (req.method === "GET" || req.isAuthenticated()) {
+    //     next();
+    //     break;
+    //   } else {
+    //     res.redirect("/");
+    //     break;
+    //   }
+    // case "/appointments":
+    //   if (req.method === "POST" || date) {
+    //     next();
+    //     break;
+    //   }
+    //   break;
+
     default:
       if (!req.isAuthenticated()) {
         res.redirect("/");
@@ -38,7 +41,6 @@ router.use(function (req, res, next) {
       } else {
         next();
       }
-
       break;
   }
 
@@ -66,6 +68,17 @@ router.route("/logout").get(function (req, res) {
   res.end();
 })
 
+router.route("/meals/:date").get(function(req, res){
+  db.Plans.find({
+    _id: req.user.id,
+    date: req.params.date
+  }).then((doc)=>{
+    console.log(doc.toJSON())
+  }).catch((err)=>{
+    console.log(err);
+    res.status(404).send();
+  })
+})
 
 
 // If no API routes are hit, send the React app
