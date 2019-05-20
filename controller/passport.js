@@ -10,33 +10,7 @@ passport.use(new LocalStrategy(
     db.Auths.find({})
       .then((dbAuths) => {
         console.log(dbAuths)
-        if (!dbAuths.length) {
-          db.Auths.insertOne({
-            username: username,
-            password: bcrypt.hashSync(password)
-          }).then((doc) => {
-            db.Auths.findOne({
-              _id: doc.insertId
-            }).then((user) => {
-              if (user) {
-                if (bcrypt.compareSync(password, user.password)) {
-                  return done(null, user);
-                } else {
-                  done(null, false);
-                }
-              } else {
-                done(null, null);
-              }
-            }).catch((err) => {
-              console.log(err);
-              done(null, null);
-            })
-          }).catch((err) => {
-            console.log(err);
-            done(null, null);
-
-          })
-        } else {
+     
           db.Auths.findOne({
             username: username
           }
@@ -56,7 +30,7 @@ passport.use(new LocalStrategy(
               done(null, null);
 
             })
-        }
+        
 
 
       })

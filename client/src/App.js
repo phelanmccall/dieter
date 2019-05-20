@@ -14,13 +14,7 @@ class App extends Component {
 
   }
 
-  login = (e) => {
-    axios.post("/login", { username: e.target.username, password: e.target.password }).then((response) => {
-      console.log(response.data);
-    })
-  }
-
-  
+ 
   render() {
 
     return (
