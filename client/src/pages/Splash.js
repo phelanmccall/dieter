@@ -89,8 +89,11 @@ class Splash extends Component {
     }
 
     componentWillMount() {
-        axios.get("/currentUser").then((response) => {
+        axios.get("/login").then((response) => {
             console.log(response.data);
+            if(response.data.username){
+                window.href = "/planner"
+            }
         }).catch((err) => {
             console.log(err.message);
         })

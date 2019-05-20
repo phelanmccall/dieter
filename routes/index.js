@@ -1,6 +1,8 @@
 const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
+const bcrypt = require("bcrypt-nodejs");
+
 require("../controller/passport");
 const passport = require("passport");
 router.use(function (req, res, next) {
@@ -14,6 +16,7 @@ router.use(function (req, res, next) {
   switch (base) {
     case "/":
     case "/login":
+    case "/signup":
     case "/logout":
       next();
       break;
@@ -45,6 +48,31 @@ router.use(function (req, res, next) {
   }
 
 });
+
+router.route("/signup")
+  .get(function(req, res){
+    res.redirect("/");
+  })
+  .post(function(req, res){
+    db.Auths.findOne({
+      username: req.body.username
+    }).then((doc)=>{
+      if(doc){
+        res.send("Error: Username already taken.")
+      }else{
+        db.Auths.create({
+          username: req.body.username,
+          password: bcrypt.hashSync(req.body.password)
+        }).then((doc)=>{
+          res.redirect("/login");
+        }).catch((err)=>{
+          res.send(err);
+        })
+      }
+    }).catch((err)=>{
+      res.send(err);
+    })
+  })
 
 router.route("/login")
   .get(function (req, res) {
