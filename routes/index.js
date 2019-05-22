@@ -64,7 +64,7 @@ router.route("/signup")
           username: req.body.username,
           password: bcrypt.hashSync(req.body.password)
         }).then((doc)=>{
-          res.redirect("/login");
+          res.send(doc)
         }).catch((err)=>{
           res.send(err);
         })
