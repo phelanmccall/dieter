@@ -21,7 +21,7 @@ class Splash extends Component {
         ).then((response) => {
             if (response.data.username) {
                 console.log(response.data.username);
-                window.href = "/planner";
+                window.location.href = "/planner";
             } else {
                 this.setState({ err: response.data })
             }
@@ -43,7 +43,7 @@ class Splash extends Component {
             ).then((response) => {
                 if (response.data.username) {   
                     console.log(response.data.username);
-                    window.href = "/planner";
+                    window.location.href = "/planner";
                 } else {
                     console.log("Error")
                     this.setState({ err: response.data })
@@ -93,7 +93,7 @@ class Splash extends Component {
         axios.get("/login").then((response) => {
             console.log(response.data);
             if(response.data.username){
-                window.href = "/planner"
+                window.location.href = "/planner"
             }
         }).catch((err) => {
             console.log(err.message);
