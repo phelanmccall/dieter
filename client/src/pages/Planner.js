@@ -82,7 +82,16 @@ class Planner extends Component {
                         })
                     }
                 </div>
+    
+                {/* <div className="row" id="selector">
+                        <span id="recipes" className="col-4 bg-success">Recipes</span>
+                        <span id="planner" className="col-4 bg-danger">Planner</span>
+                        <span id="favorites" className="col-4 bg-info">Favorites</span>
+                </div>
 
+                <div className="row h-100">
+                        
+                </div> */}
             </div>
         );
     }
