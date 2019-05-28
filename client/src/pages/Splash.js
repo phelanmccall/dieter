@@ -19,8 +19,8 @@ class Splash extends Component {
                 password: e.target.password.value
             }
         ).then((response) => {
-            console.log(response.data);
             if (response.data.username) {
+                console.log(response.data.username);
                 window.href = "/planner";
             } else {
                 this.setState({ err: response.data })
@@ -41,10 +41,11 @@ class Splash extends Component {
                 password: e.target.password2.value
             }
             ).then((response) => {
-                console.log(response.data);
                 if (response.data.username) {   
+                    console.log(response.data.username);
                     window.href = "/planner";
                 } else {
+                    console.log("Error")
                     this.setState({ err: response.data })
                 }
             }).catch((err) => {

@@ -65,7 +65,7 @@ router.route("/login")
 
 router.route("/logout").get(function (req, res) {
   req.logout();
-  res.end();
+  res.redirect("/");
 })
 
 router.route("/meals/:date").get(function(req, res){
