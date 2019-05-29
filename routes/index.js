@@ -98,7 +98,7 @@ router.route("/logout").get(function (req, res) {
 
 router.route("/meals/:date").get(function (req, res) {
   db.Plans.find({
-    _id: req.user.id,
+    _id: req.user._id,
     date: req.params.date
   }).then((doc) => {
     console.log(doc.toJSON())
@@ -110,7 +110,7 @@ router.route("/meals/:date").get(function (req, res) {
 router.route("/myRecipes")
   .get(function (req, res) {
     db.Recipes.find({
-      userID: req.user.id
+      user: req.user.username
     }).then((data) => {
       res.send(data)
     }).catch((err) => {
@@ -118,14 +118,14 @@ router.route("/myRecipes")
     })
   })
 
-router.route("/all/recipes")
-  .get(function (req, res) {
-    db.Recipes.find().then((data) => {
-      res.send(data)
-    }).catch((err) => {
-      res.send(err);
-    })
-  })
+// router.route("/all/recipes")
+//   .get(function (req, res) {
+//     db.Recipes.find().then((data) => {
+//       res.send(data)
+//     }).catch((err) => {
+//       res.send(err);
+//     })
+//   })
 
 router.route("/add/recipe")
   .post(function (req, res) {

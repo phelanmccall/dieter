@@ -6,6 +6,7 @@ class Recipes extends Component{
 
     state = {
         recipes: [],
+        selected: null,
         add: false
     }
 
@@ -29,12 +30,22 @@ class Recipes extends Component{
 
         return (
             this.state.add ? 
-                <AddRecipes onSave={this.toggle}/>
+                <AddRecipes onSave={this.toggle} recipe={this.state.selected}/>
                 :
                 <div>
                     <button onClick={
                        this.toggle
                     }>ADD RECIPE</button>
+
+                    {
+                        this.state.recipes.map((val, key) =>{
+                            return <button onClick={(e)=>{
+                                this.setState({
+                                    selected: this.state.recipes[e.target.key]
+                                })
+                            }} key={key}>{val.title}</button>
+                        })
+                    }
                 </div>
         );
     }
