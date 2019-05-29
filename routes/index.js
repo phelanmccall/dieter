@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
   if (base === "/meals") {
     date = path.split("/")[2];
   }
-
+  
   switch (base) {
     case "/":
     case "/login":
@@ -134,15 +134,9 @@ router.route("/add/recipe")
       title: req.body.title,
       steps: req.body.steps,
       ingredients: req.body.ingredients,
-      userID: req.user.id
+      userID: req.user._id
     }).then((data) => {
-      db.Recipes.find({
-        _id: data._id
-      }).then((dbRecipe)=>{
-        res.send(dbRecipe);
-      }).catch((error)=>{
-        res.send(error);
-      })
+      res.send(data)
     }).catch((err) => {
       res.send(err);
     })

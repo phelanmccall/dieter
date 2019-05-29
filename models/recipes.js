@@ -21,7 +21,7 @@ var RecipeSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Recipes = mongoose.model("Recipes", RecipeSchema);
+var Recipes = mongoose.model("Recipe", RecipeSchema);
 
 // Export the Recipes model
 module.exports = Recipes;

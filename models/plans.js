@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
+import RecipeSchema from "./recipes";
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
 var PlanSchema = new Schema({
@@ -21,7 +22,7 @@ var PlanSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Plans = mongoose.model("Plans", PlanSchema);
+var Plans = mongoose.model("Plan", PlanSchema);
 
 // Export the Plans model
 module.exports = Plans;

@@ -19,7 +19,7 @@ var AuthSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Auths = mongoose.model("Auths", AuthSchema);
+var Auths = mongoose.model("Auth", AuthSchema);
 
 // Export the Auths model
 module.exports = Auths;
