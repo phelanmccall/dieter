@@ -136,7 +136,13 @@ router.route("/add/recipe")
       ingredients: req.body.ingredients,
       userID: req.user.id
     }).then((data) => {
-      res.send(data);
+      db.Recipes.find({
+        _id: data._id
+      }).then((dbRecipe)=>{
+        res.send(dbRecipe);
+      }).catch((error)=>{
+        res.send(error);
+      })
     }).catch((err) => {
       res.send(err);
     })
