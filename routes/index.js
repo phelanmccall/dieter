@@ -134,7 +134,7 @@ router.route("/add/recipe")
       title: req.body.title,
       steps: req.body.steps,
       ingredients: req.body.ingredients,
-      userID: req.user._id
+      user: req.user.username
     }).then((data) => {
       res.send(data)
     }).catch((err) => {
