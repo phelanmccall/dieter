@@ -46,11 +46,11 @@ class Recipes extends Component{
                                 e.preventDefault();
                                 console.log(e.target);
                                 this.setState({
-                                    selected: this.state.recipes[e.target.key]
+                                    selected: this.state.recipes[e.target.id]
                                 },()=>{
                                     this.toggle(e);
                                 })
-                            }} key={key}>{val.title}</button>
+                            }} id={key} key={key}>{val.title}</button>
                         })
                     }
                 </div>
