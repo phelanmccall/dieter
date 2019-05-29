@@ -60,7 +60,7 @@ router.route("/signup")
       if (doc) {
         res.send("Error: Username already taken.")
       } else {
-        db.Auths.insertOne({
+        db.Auths.create({
           username: req.body.username,
           password: bcrypt.hashSync(req.body.password)
         }).then((doc) => {
@@ -130,7 +130,7 @@ router.route("/all/recipes")
 router.route("/add/recipe")
   .post(function (req, res) {
     console.log(req.body);
-    db.Recipes.insertOne({
+    db.Recipes.create({
       title: req.body.title,
       steps: req.body.steps,
       ingredients: req.body.ingredients,
