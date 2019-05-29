@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
-import RecipeSchema from "./recipes";
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
 var PlanSchema = new Schema({
@@ -16,7 +15,7 @@ var PlanSchema = new Schema({
         required: true
     },
     recipes: {
-        type: [RecipeSchema],
+        type: Array,
         required: true
     }
 });
