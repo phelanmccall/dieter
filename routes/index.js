@@ -151,6 +151,7 @@ router.route("/add/recipe")
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {
+  console.log(Object.keys(db.Recipes))
   if (!res.headersSent) {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   }
