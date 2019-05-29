@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Splash from "./pages/Splash";
 import Planner from "./pages/Planner";
-import Recipes from "./pages/Recipes";
+import Recipes from "./pages/AddRecipes";
 
 class App extends Component {
 

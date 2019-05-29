@@ -8,13 +8,14 @@ class AddRecipes extends Component {
         if(props.recipe){
             let {title, steps, ingredients} = props.recipe;
             this.state = {
-                title, steps, ingredients
+                title, steps, ingredients, method: "put"
             }
         }else{
             this.state = {
                 title: "",
                 ingredients: [],
-                steps: []
+                steps: [],
+                method: "post"
             }
         }
 
@@ -23,7 +24,7 @@ class AddRecipes extends Component {
 
     handleSave = (e) =>{
         e.preventDefault();
-        axios.post("/add/recipe", this.state).then((response)=>{
+        axios[this.state.method]("/add/recipe", this.state).then((response)=>{
             console.log(response.data);
         });
 
