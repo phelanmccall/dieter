@@ -43,6 +43,8 @@ class Recipes extends Component{
                     {
                         this.state.recipes.map((val, key) =>{
                             return <button onClick={(e)=>{
+                                e.preventDefault();
+                                console.log(e.target);
                                 this.setState({
                                     selected: this.state.recipes[e.target.key]
                                 },()=>{
