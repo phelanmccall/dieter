@@ -17,6 +17,10 @@ var RecipeSchema = new Schema({
     steps: {
         type: Array,
         required: true
+    },
+    user: {
+        type: String,
+        require: true
     }
 });
 
