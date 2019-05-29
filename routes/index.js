@@ -129,7 +129,7 @@ router.route("/all/recipes")
 
 router.route("/add/recipe")
   .post(function (req, res) {
-    console.log(req.body);
+    console.log(req.user);
     db.Recipes.create({
       title: req.body.title,
       steps: req.body.steps,
