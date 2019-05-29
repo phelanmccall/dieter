@@ -1,25 +1,41 @@
-import React, { Component } from "react";
+import React, { Component} from "react";
+import Axios from "axios";
+import AddRecipes from "./AddRecipes";
 
-class Recipes extends Component {
+class Recipes extends Component{
 
-    render() {
+    state = {
+        recipes: [],
+        add: false
+    }
+
+    toggle = (e)=>{
+        e.preventDefault();
+        this.setState((prevState)=>({
+            add: !prevState.add
+        }))
+    }
+
+    componentDidMount(){
+        Axios.get("/myRecipes").then((response)=>{
+            console.log(response.data);
+        }).catch((err)=>{
+            console.log(err);
+        })
+        
+    }
+
+    render(){
+
         return (
-            <div>
-                <div>RECIPES</div>
-
-                <form method="post" path="/add/ingredient">
-                    <label>Add Ingredient</label>
-                    <input name="name"></input>
-                    <input type="submit"></input>
-                </form>
-
-                <form method="post" path="/add/recipe">
-                    <label>Add Recipe</label>
-                    <label>Name</label>
-                    <input name="name"></input>
-                    <input type="submit"></input>
-                </form>
-            </div>
+            this.state.add ? 
+                <AddRecipes onSave={this.toggle}/>
+                :
+                <div>
+                    <button onClick={
+                       this.toggle
+                    }>ADD RECIPE</button>
+                </div>
         );
     }
 }

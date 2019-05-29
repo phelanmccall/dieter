@@ -77,7 +77,7 @@ router.route("/signup")
 router.route("/login")
   .get(function (req, res) {
     if (req.isAuthenticated()) {
-      res.send({ username: req.user.username });
+      res.send(req.user);
     } else {
       res.send({});
     }
@@ -107,6 +107,29 @@ router.route("/meals/:date").get(function(req, res){
     res.status(404).send();
   })
 })
+router.route("/myRecipes")
+  .get(function(req,res){
+    db.Recipes.find({
+      userID: req.user.id
+    }).then((data)=>{
+      res.send(data)
+    }).catch((err)=>{
+      res.send(err);
+    })
+  })
+router.route("/add/recipe")
+  .post(function(req, res){
+    db.Recipes.create({
+      title: req.body.title,
+      steps: req.body.steps,
+      ingredients: req.body.ingredients,
+      userID: req.user.id
+    }).then((data)=>{
+      res.send(data);
+    }).catch((err)=>{
+      res.send(err);
+    })
+  })
 
 
 // If no API routes are hit, send the React app
