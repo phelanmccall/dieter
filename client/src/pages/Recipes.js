@@ -45,6 +45,8 @@ class Recipes extends Component{
                             return <button onClick={(e)=>{
                                 this.setState({
                                     selected: this.state.recipes[e.target.key]
+                                },()=>{
+                                    this.toggle(e);
                                 })
                             }} key={key}>{val.title}</button>
                         })
