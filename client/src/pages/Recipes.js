@@ -20,6 +20,9 @@ class Recipes extends Component{
     componentDidMount(){
         Axios.get("/myRecipes").then((response)=>{
             console.log(response.data);
+            this.setState({
+                recipes: response.data
+            })
         }).catch((err)=>{
             console.log(err);
         })
