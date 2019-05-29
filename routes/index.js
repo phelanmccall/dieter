@@ -50,26 +50,26 @@ router.use(function (req, res, next) {
 });
 
 router.route("/signup")
-  .get(function(req, res){
+  .get(function (req, res) {
     res.redirect("/");
   })
-  .post(function(req, res){
+  .post(function (req, res) {
     db.Auths.findOne({
       username: req.body.username
-    }).then((doc)=>{
-      if(doc){
+    }).then((doc) => {
+      if (doc) {
         res.send("Error: Username already taken.")
-      }else{
+      } else {
         db.Auths.create({
           username: req.body.username,
           password: bcrypt.hashSync(req.body.password)
-        }).then((doc)=>{
+        }).then((doc) => {
           res.send(doc)
-        }).catch((err)=>{
+        }).catch((err) => {
           res.send(err);
         })
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       res.send(err);
     })
   })
@@ -96,37 +96,48 @@ router.route("/logout").get(function (req, res) {
   res.redirect("/");
 })
 
-router.route("/meals/:date").get(function(req, res){
+router.route("/meals/:date").get(function (req, res) {
   db.Plans.find({
     _id: req.user.id,
     date: req.params.date
-  }).then((doc)=>{
+  }).then((doc) => {
     console.log(doc.toJSON())
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
     res.status(404).send();
   })
 })
 router.route("/myRecipes")
-  .get(function(req,res){
+  .get(function (req, res) {
     db.Recipes.find({
       userID: req.user.id
-    }).then((data)=>{
+    }).then((data) => {
       res.send(data)
-    }).catch((err)=>{
+    }).catch((err) => {
       res.send(err);
     })
   })
+
+router.route("/all/recipes")
+  .get(function (req, res) {
+    db.Recipes.find().then((data) => {
+      res.send(data)
+    }).catch((err) => {
+      res.send(err);
+    })
+  })
+
 router.route("/add/recipe")
-  .post(function(req, res){
+  .post(function (req, res) {
+    console.log(req.body);
     db.Recipes.create({
       title: req.body.title,
       steps: req.body.steps,
       ingredients: req.body.ingredients,
       userID: req.user.id
-    }).then((data)=>{
+    }).then((data) => {
       res.send(data);
-    }).catch((err)=>{
+    }).catch((err) => {
       res.send(err);
     })
   })
