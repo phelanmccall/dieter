@@ -4,7 +4,7 @@ import axios from "axios";
 class AddRecipes extends Component {
     constructor(props){
         super(props);
-
+        this.onSave = props.onSave
         if(props.recipe){
             let {title, steps, ingredients} = props.recipe;
             this.state = {
@@ -28,7 +28,7 @@ class AddRecipes extends Component {
             console.log(response.data);
         });
 
-        this.props.onSave(e);
+        this.onSave(e);
     }
 
     handleSubmit = (e) =>{
