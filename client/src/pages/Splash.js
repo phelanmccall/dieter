@@ -46,7 +46,7 @@ class Splash extends Component {
                     window.location.href = "/planner";
                 } else {
                     console.log("Error")
-                    this.setState({ err: response.data })
+                    this.setState({ err: response.data.message })
                 }
             }).catch((err) => {
                 console.log(err);
