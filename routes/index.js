@@ -163,7 +163,7 @@ router.route("/add/recipe")
     let {id, title, steps, ingredients} = req.body;
     let user = req.user.username;
     let conditions = {
-      id,
+      _id: id,
       user
     };
     
