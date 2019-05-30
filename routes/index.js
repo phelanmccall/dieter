@@ -141,6 +141,9 @@ router.route("/add/recipe")
       res.send(err);
     })
   })
+  .put(function(req, res){
+    res.send(200);
+  })
 
 
 // If no API routes are hit, send the React app
