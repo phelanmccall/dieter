@@ -4,31 +4,31 @@ import axios from "axios";
 class AddRecipes extends Component {
     constructor(props){
         super(props);
-        this.onSave = props.onSave
-        if(props.recipe){
-            let {title, steps, ingredients} = props.recipe;
-            this.state = {
-                title, steps, ingredients, method: "put"
-            }
-        }else{
-            this.state = {
-                title: "",
-                ingredients: [],
-                steps: [],
-                method: "post"
-            }
+        this.state = {
+            title: this.props.recipe ? this.props.recipe.title : "",
+            steps: this.props.recipe ? this.props.recipe.steps : [],
+            ingredients: this.props.recipe ? this.props.recipe.ingredients : [],
+            method: this.props.recipe ? "put" : "post"
         }
-
     }
    
 
     handleSave = (e) =>{
         e.preventDefault();
-        axios[this.state.method]("/add/recipe", this.state).then((response)=>{
+        console.log(this.props);
+       if(this.props.onSave){
+        let {title, steps, ingredients} = this.state;
+        let recipe = {
+            title,
+            steps,
+            ingredients
+        };
+        axios[this.state.method]("/add/recipe", recipe).then((response)=>{
             console.log(response.data);
         });
 
-        this.onSave(e);
+        this.props.onSave(e);
+       }
     }
 
     handleSubmit = (e) =>{
@@ -53,6 +53,7 @@ class AddRecipes extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div>
             

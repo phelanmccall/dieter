@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Splash from "./pages/Splash";
 import Planner from "./pages/Planner";
-import Recipes from "./pages/AddRecipes";
+import Recipes from "./pages/Recipes";
 
 class App extends Component {
 

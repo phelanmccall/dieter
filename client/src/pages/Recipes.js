@@ -1,16 +1,17 @@
 import React, { Component} from "react";
 import Axios from "axios";
 import AddRecipes from "./AddRecipes";
+// import AddRecipes from "./AddRecipes";
 
 class Recipes extends Component{
 
     state = {
         recipes: [],
-        selected: null,
+        
         add: false
     }
 
-    toggle = (e)=>{
+    toggle = (e) =>{
         e.preventDefault();
         this.setState((prevState)=>({
             add: !prevState.add
@@ -30,11 +31,13 @@ class Recipes extends Component{
     }
 
     render(){
+        console.log(this.state.add);
 
         return (
+            
             this.state.add ? 
                 <AddRecipes onSave={this.toggle} recipe={this.state.selected}/>
-                :
+            :
                 <div>
                     <button onClick={
                        this.toggle
