@@ -130,19 +130,40 @@ router.route("/myRecipes")
 router.route("/add/recipe")
   .post(function (req, res) {
     console.log(req.user);
-    db.Recipes.create({
-      title: req.body.title,
-      steps: req.body.steps,
-      ingredients: req.body.ingredients,
-      user: req.user.username
-    }).then((data) => {
-      res.send(data)
+    let {title, steps, ingredients } = req.body;
+    let user = req.body.username;
+
+    let conditions = {
+      title,
+      user
+    };
+
+    let update = {
+      title, 
+      steps,
+      ingredients,
+      user
+    }
+
+    db.Recipes.findOne(conditions).then((data) => {
+      if(data.title === title){
+        res.send("Error: recipe title already exists.")
+      }else{
+        db.Recipes.create(update).then((rx)=>{
+          res.send(rx);
+        }).catch((err)=>{
+          res.send(err);
+        })
+      }
     }).catch((err) => {
       res.send(err);
     })
   })
   .put(function(req, res){
-    res.send(200);
+    let conditions = {
+
+    }
+    db.Recipes.findOneAndUpdate()
   })
 
 

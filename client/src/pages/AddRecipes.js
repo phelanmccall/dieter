@@ -5,6 +5,7 @@ class AddRecipes extends Component {
     constructor(props){
         super(props);
         this.state = {
+            id: this.props.recipe ? this.props.recipe._id : "",
             title: this.props.recipe ? this.props.recipe.title : "",
             steps: this.props.recipe ? this.props.recipe.steps : [],
             ingredients: this.props.recipe ? this.props.recipe.ingredients : [],
