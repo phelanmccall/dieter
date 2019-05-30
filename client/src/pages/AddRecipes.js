@@ -18,8 +18,9 @@ class AddRecipes extends Component {
         e.preventDefault();
         console.log(this.props);
        if(this.props.onSave){
-        let {title, steps, ingredients} = this.state;
+        let {id, title, steps, ingredients} = this.state;
         let recipe = {
+            id,
             title,
             steps,
             ingredients

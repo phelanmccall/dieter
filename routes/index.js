@@ -160,10 +160,24 @@ router.route("/add/recipe")
     })
   })
   .put(function(req, res){
+    let {id, title, steps, ingredients} = req.body;
+    let user = req.user.username;
     let conditions = {
-
+      id,
+      user
+    };
+    
+    let update = {
+      title, 
+      steps,
+      ingredients
     }
-    db.Recipes.findOneAndUpdate()
+
+    db.Recipes.findOneAndUpdate(conditions, update,{upsert: true}).then((rx)=>{
+      res.send(rx);
+    }).catch((err)=>{
+      res.send(err);
+    })
   })
 
 
