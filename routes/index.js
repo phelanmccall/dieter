@@ -131,7 +131,7 @@ router.route("/add/recipe")
   .post(function (req, res) {
     console.log(req.user);
     let {title, steps, ingredients } = req.body;
-    let user = req.body.username;
+    let user = req.user.username;
 
     let conditions = {
       title,
