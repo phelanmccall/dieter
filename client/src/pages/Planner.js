@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import Header from "../components/Header";
 
 var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -44,6 +44,7 @@ class Planner extends Component {
         var { date } = this.state;
         return (
             <div className="container">
+                <Header />
 
                 <div className="row">
                     <input className="d-inline m-auto d-block" type="date" onChange={this.handleDate}></input>
@@ -83,7 +84,7 @@ class Planner extends Component {
                         })
                     }
                 </div>
-    
+
                 {/* <div className="row" id="selector">
                         <span id="recipes" className="col-4 bg-success">Recipes</span>
                         <span id="planner" className="col-4 bg-danger">Planner</span>

@@ -1,66 +1,71 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import Axios from "axios";
 import AddRecipes from "./AddRecipes";
-// import AddRecipes from "./AddRecipes";
+import Header from "../components/Header";
 
-class Recipes extends Component{
+class Recipes extends Component {
 
     state = {
         recipes: [],
-        
+
         add: false
     }
 
-    toggle = (e) =>{
+    toggle = (e) => {
         e.preventDefault();
-        this.setState((prevState)=>({
+        this.setState((prevState) => ({
             add: !prevState.add
         }))
     }
 
-    updateRecipes = () =>{
-        Axios.get("/myRecipes").then((response)=>{
+    updateRecipes = () => {
+        Axios.get("/myRecipes").then((response) => {
             console.log(response.data);
             this.setState({
                 recipes: response.data
             })
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
         })
     }
 
-    componentDidMount(){
-     this.updateRecipes();
-        
+    componentDidMount() {
+        this.updateRecipes();
+
     }
 
-    render(){
+    render() {
         console.log(this.state.add);
 
         return (
-            
-            this.state.add ? 
-                <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected}/>
-            :
-                <div>
-                    <button onClick={
-                       this.toggle
-                    }>ADD RECIPE</button>
+            <div className="container">
+                <Header />
 
-                    {
-                        this.state.recipes.map((val, key) =>{
-                            return <button onClick={(e)=>{
-                                e.preventDefault();
-                                console.log(e.target);
-                                this.setState({
-                                    selected: this.state.recipes[e.target.id]
-                                },()=>{
-                                    this.toggle(e);
+                {
+                    this.state.add ?
+                        <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected} />
+                        :
+                        <div>
+                            <button onClick={
+                                this.toggle
+                            }>ADD RECIPE</button>
+
+                            {
+                                this.state.recipes.map((val, key) => {
+                                    return <button onClick={(e) => {
+                                        e.preventDefault();
+                                        console.log(e.target);
+                                        this.setState({
+                                            selected: this.state.recipes[e.target.id]
+                                        }, () => {
+                                            this.toggle(e);
+                                        })
+                                    }} id={key} key={key}>{val.title}</button>
                                 })
-                            }} id={key} key={key}>{val.title}</button>
-                        })
-                    }
-                </div>
+                            }
+                        </div>
+                }
+            </div>
         );
     }
 }

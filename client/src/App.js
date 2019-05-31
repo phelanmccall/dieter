@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
+
 import Splash from "./pages/Splash";
 import Planner from "./pages/Planner";
 import Recipes from "./pages/Recipes";
@@ -21,19 +22,18 @@ class App extends Component {
 
 
         <Router>
-          <Header />
 
 
           <Switch>
             <Route exact path={["/", "/login"]} component={Splash} />
-            <Route 
-              path="/planner" 
+            <Route
+              path="/planner"
               render={(props) => <Planner {...props} />}
             />
-            <Route 
+            <Route
               path="/recipes"
               render={(props) => <Recipes {...props} />}
-              />
+            />
           </Switch>
         </Router>
       </div>

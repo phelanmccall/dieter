@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 class AddRecipes extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             id: this.props.recipe ? this.props.recipe._id : "",
@@ -12,40 +12,49 @@ class AddRecipes extends Component {
             method: this.props.recipe ? "put" : "post"
         }
     }
-   
 
-    handleSave = (e) =>{
+
+    handleSave = (e) => {
         e.preventDefault();
         console.log(this.props);
-       if(this.props.onSave){
-        let {id, title, steps, ingredients} = this.state;
-        let recipe = {
-            id,
-            title,
-            steps,
-            ingredients
-        };
-        axios[this.state.method]("/add/recipe", recipe).then((response)=>{
-            console.log(response.data);
-        });
-
-        this.props.onSave(e);
-        this.props.refresh();
-       }
+        if (this.props.onSave) {
+            let { id, title, steps, ingredients } = this.state;
+            let recipe = {
+                id,
+                title,
+                steps,
+                ingredients
+            };
+            axios[this.state.method]("/add/recipe", recipe).then((response) => {
+                console.log(response.data);
+            });
+            this.props.refresh();
+            this.props.onSave(e);
+        }
+    }
+    handleDelete = (e) => {
+        e.preventDefault();
+        if(window.confirm("Are you sure you want to delete this recipe?")){
+            axios.delete("/delete/recipe/"+ this.state.id).then((response)=>{
+                console.log(response.data);
+                this.props.refresh();
+                this.props.onSave(e);
+            });
+        }
     }
 
-    handleSubmit = (e) =>{
+    handleSubmit = (e) => {
         e.preventDefault();
         let arr = [...this.state[e.target.id], e.target.name.value];
         console.log(e.target.id)
         this.setState({
             [e.target.id]: arr
-        }, function(){
+        }, function () {
             console.log(this.state)
         })
     }
 
-    deleteItem = (e) =>{
+    deleteItem = (e) => {
         e.preventDefault();
         console.log(e.target.id);
         let newArray = this.state.ingredients;
@@ -53,28 +62,28 @@ class AddRecipes extends Component {
         console.log(newArray);
         this.setState({
             ingredients: newArray
-        }, ()=>{
+        }, () => {
             console.log(this.state)
         });
     }
-    deleteStep = (e) =>{
+    deleteStep = (e) => {
         e.preventDefault();
         console.log(e.target.id);
         let newArray = this.state.steps;
         newArray.splice(e.target.id, 1);
         this.setState({
             steps: newArray
-        },()=>{
+        }, () => {
             console.log(this.state);
         });
     }
 
-    handleChange = (e) =>{
+    handleChange = (e) => {
         e.preventDefault();
 
         this.setState({
             [e.target.name]: e.target.value
-        }, function(){
+        }, function () {
             console.log(this.state)
         })
     }
@@ -83,14 +92,14 @@ class AddRecipes extends Component {
         console.log(this.props)
         return (
             <div>
-            
+
 
                 <nav>
-                
+
                     <button onClick={this.props.onSave}>Cancel</button>
                     <button onClick={this.handleSave}>Save</button>
 
-                </nav>  
+                </nav>
 
                 <form>
                     <label>Title: </label>
@@ -105,7 +114,7 @@ class AddRecipes extends Component {
 
                 <ul>
                     {
-                        this.state.ingredients.map((val, key)=>{
+                        this.state.ingredients.map((val, key) => {
                             return <li key={key}>{val} <button id={key} onClick={this.deleteItem}>Delete</button></li>
                         })
                     }
@@ -119,7 +128,7 @@ class AddRecipes extends Component {
 
                 <ol>
                     {
-                        this.state.steps.map((val, key)=>{
+                        this.state.steps.map((val, key) => {
                             return <li key={key}>{val}<button id={key} onClick={this.deleteStep}>Delete</button></li>
                         })
                     }

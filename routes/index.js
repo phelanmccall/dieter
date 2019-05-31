@@ -179,7 +179,17 @@ router.route("/add/recipe")
       res.send(err);
     })
   })
-
+  router.route("/delete/recipe/:id")
+  .delete(function(req,res){
+    db.Recipes.findOneAndRemove({
+      _id: req.params.id,
+      user: req.user.username
+    }).then((rx)=>{
+      res.send(200);
+    }).catch((err)=>{
+      res.send(err);
+    })
+  })
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {
