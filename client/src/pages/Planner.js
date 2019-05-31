@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
+import Axios from "axios";
 
 var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -39,6 +40,16 @@ class Planner extends Component {
         })
     }
 
+    componentWillMount(){
+        Axios.get("/myRecipes").then((response)=>{
+            this.setState({
+                foods: response.data
+            })
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
 
     render() {
         var { date } = this.state;
@@ -57,21 +68,22 @@ class Planner extends Component {
 
                 <form onSubmit={this.addFood}>
                     <span>Add </span>
-                    <select name="meal" id="meal">
+                    <select name="food" id="food">
+                        {
+                            this.state.foods.map(function (val, key) {
+                                return <option key={key} value={val.title}>{val.title}</option>
+                            })
+                        }
+                    </select>
+                     <span> To </span>
+                     <select name="meal" id="meal">
                         {
                             meals.map(function (val, key) {
                                 return <option key={key} value={val}>{val}</option>
                             })
                         }
                     </select>
-                    <span> To </span>
-                    <select name="food" id="food">
-                        {
-                            this.state.foods.map(function (val, key) {
-                                return <option key={key} value={val.name}>{val.name}</option>
-                            })
-                        }
-                    </select>
+                   
 
                     <input type="submit" value="submit"></input>
 
@@ -85,15 +97,7 @@ class Planner extends Component {
                     }
                 </div>
 
-                {/* <div className="row" id="selector">
-                        <span id="recipes" className="col-4 bg-success">Recipes</span>
-                        <span id="planner" className="col-4 bg-danger">Planner</span>
-                        <span id="favorites" className="col-4 bg-info">Favorites</span>
-                </div>
-
-                <div className="row h-100">
-                        
-                </div> */}
+            
             </div>
         );
     }

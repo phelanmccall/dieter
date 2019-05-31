@@ -129,7 +129,6 @@ router.route("/myRecipes")
 
 router.route("/add/recipe")
   .post(function (req, res) {
-    console.log(req.user);
     let {title, steps, ingredients } = req.body;
     let user = req.user.username;
 
@@ -146,14 +145,11 @@ router.route("/add/recipe")
     }
 
     db.Recipes.findOne(conditions).then((data) => {
-      console.log("DATA: " + data);
       if(data){
         res.send("Error: recipe title already exists.")
       }else{
-        console.log("UPDATE: " + Object.keys(update));
-        console.log(typeof update.user + " type of " + update.user);
+       
         db.Recipes.create(update).then((rx)=>{
-          console.log("RX: " + rx);
           res.send(rx);
         }).catch((err)=>{
           res.send(err);
@@ -182,7 +178,8 @@ router.route("/add/recipe")
     }).catch((err)=>{
       res.send(err);
     })
-  })
+  });
+
   router.route("/delete/recipe/:id")
   .delete(function(req,res){
     db.Recipes.findOneAndRemove({
@@ -197,7 +194,6 @@ router.route("/add/recipe")
 
 // If no API routes are hit, send the React app
 router.use(function (req, res) {
-  console.log(Object.keys(db.Recipes))
   if (!res.headersSent) {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   }
