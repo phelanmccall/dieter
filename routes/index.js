@@ -151,6 +151,7 @@ router.route("/add/recipe")
         res.send("Error: recipe title already exists.")
       }else{
         console.log("UPDATE: " + Object.keys(update));
+        console.log(typeof update.user + " type of " + update.user);
         db.Recipes.create(update).then((rx)=>{
           console.log("RX: " + rx);
           res.send(rx);
