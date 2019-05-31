@@ -134,6 +134,8 @@ class AddRecipes extends Component {
                     }
                 </ol>
 
+
+                <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button>
             </div>
         );
     }
