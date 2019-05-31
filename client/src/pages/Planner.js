@@ -30,6 +30,17 @@ class Planner extends Component {
 
     }
 
+    removeMeal = (e) =>{
+        e.preventDefault();
+        let type = e.target.getAttribute("data-type");
+        let key = e.target.getAttribute("data-key");
+        let newArray = this.state[type];
+        newArray.splice(key, 1);
+        this.setState({
+            [type]: newArray
+        });
+    }
+
     handleDate = (e) => {
         e.preventDefault();
 
@@ -40,14 +51,51 @@ class Planner extends Component {
         })
     }
 
-    componentWillMount(){
+    getUserInfo = () =>{
+      
+        this.getRecipes();
+        this.getToday();
+    }
+    getToday = () =>{
+        let { date } = this.state;
+        var today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+        Axios.get("/meals/" + today)
+            .then((response)=>{
+                console.log(response.data);
+                let {breakfast,lunch,dinner} = response.data;
+                this.setState({
+                    breakfast,
+                    lunch,
+                    dinner
+                })
+            }).catch((err)=>{
+                console.log(err);
+            })
+    }
+
+    getRecipes = () =>{
         Axios.get("/myRecipes").then((response)=>{
+            console.log(response.data);
             this.setState({
                 foods: response.data
             })
         }).catch((err)=>{
             console.log(err);
-        })
+        });
+    }
+
+    updatePlan = () =>{
+        Axios.post("/add/plan", this.state)
+            .then((response)=>{
+                console.log(response.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+    }
+
+    componentWillMount(){
+        this.getUserInfo();
     }
 
 
@@ -70,7 +118,7 @@ class Planner extends Component {
                     <span>Add </span>
                     <select name="food" id="food">
                         {
-                            this.state.foods.map(function (val, key) {
+                            this.state.foods.map( (val, key)=> {
                                 return <option key={key} value={val.title}>{val.title}</option>
                             })
                         }
@@ -78,7 +126,7 @@ class Planner extends Component {
                      <span> To </span>
                      <select name="meal" id="meal">
                         {
-                            meals.map(function (val, key) {
+                            meals.map( (val, key)=> {
                                 return <option key={key} value={val}>{val}</option>
                             })
                         }
@@ -90,9 +138,28 @@ class Planner extends Component {
                 </form>
 
                 <div>
+                    <p>Breakfast:</p>
                     {
-                        this.state.breakfast.map(function (val, key) {
-                            return <div key={key}>{val}</div>
+                        this.state.breakfast.map( (val, key)=> {
+                            return <div key={key}>{val}<button data-key={key} data-type="breakfast" onClick={this.removeMeal}>DELETE</button></div>
+                        })
+                    }
+                </div>
+                
+                <div>
+                    <p>Lunch:</p>
+                    {
+                        this.state.lunch.map( (val, key)=> {
+                            return <div key={key}>{val}<button data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button></div>
+                        })
+                    }
+                </div>
+                
+                <div>
+                    <p>Dinner:</p>
+                    {
+                        this.state.dinner.map( (val, key)=> {
+                            return <div key={key}>{val}<button data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
                         })
                     }
                 </div>

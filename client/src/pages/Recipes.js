@@ -29,7 +29,7 @@ class Recipes extends Component {
         })
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.updateRecipes();
 
     }

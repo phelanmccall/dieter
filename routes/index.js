@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
   if (base === "/meals") {
     date = path.split("/")[2];
   }
-  
+
   switch (base) {
     case "/":
     case "/login":
@@ -97,16 +97,38 @@ router.route("/logout").get(function (req, res) {
 })
 
 router.route("/meals/:date").get(function (req, res) {
-  db.Plans.find({
-    _id: req.user._id,
+  db.Plans.findOne({
+    user: req.user.username,
     date: req.params.date
-  }).then((doc) => {
-    console.log(doc.toJSON())
+  }).then((plan) => {
+    console.log(plan.toJSON());
+    res.send(plan);
   }).catch((err) => {
     console.log(err);
     res.status(404).send();
   })
 })
+
+router.route("/add/plans")
+  .post(function (req, res) {
+    let {date, breakfast, lunch, dinner} = req.body;
+    let user = req.user.username;
+
+    db.Plans.findOneOrCreate({
+      date,
+      user
+    },
+      {breakfast,lunch,dinner},
+      {
+        upsert: true,
+        returnNewDocument: true
+      }).then((plan) => {
+        res.send(plan);
+      }).catch((err) => {
+        res.send(err);
+      })
+  })
+
 router.route("/myRecipes")
   .get(function (req, res) {
     db.Recipes.find({
@@ -129,7 +151,7 @@ router.route("/myRecipes")
 
 router.route("/add/recipe")
   .post(function (req, res) {
-    let {title, steps, ingredients } = req.body;
+    let { title, steps, ingredients } = req.body;
     let user = req.user.username;
 
     let conditions = {
@@ -138,20 +160,20 @@ router.route("/add/recipe")
     };
 
     let update = {
-      title, 
+      title,
       steps,
       ingredients,
       user
     }
 
     db.Recipes.findOne(conditions).then((data) => {
-      if(data){
+      if (data) {
         res.send("Error: recipe title already exists.")
-      }else{
-       
-        db.Recipes.create(update).then((rx)=>{
+      } else {
+
+        db.Recipes.create(update).then((rx) => {
           res.send(rx);
-        }).catch((err)=>{
+        }).catch((err) => {
           res.send(err);
         })
       }
@@ -159,35 +181,35 @@ router.route("/add/recipe")
       res.send(err);
     })
   })
-  .put(function(req, res){
-    let {id, title, steps, ingredients} = req.body;
+  .put(function (req, res) {
+    let { id, title, steps, ingredients } = req.body;
     let user = req.user.username;
     let conditions = {
       _id: id,
       user
     };
-    
+
     let update = {
-      title, 
+      title,
       steps,
       ingredients
     }
 
-    db.Recipes.findOneAndUpdate(conditions, update,{upsert: true}).then((rx)=>{
+    db.Recipes.findOneAndUpdate(conditions, update, { upsert: true }).then((rx) => {
       res.send(rx);
-    }).catch((err)=>{
+    }).catch((err) => {
       res.send(err);
     })
   });
 
-  router.route("/delete/recipe/:id")
-  .delete(function(req,res){
+router.route("/delete/recipe/:id")
+  .delete(function (req, res) {
     db.Recipes.findOneAndRemove({
       _id: req.params.id,
       user: req.user.username
-    }).then((rx)=>{
+    }).then((rx) => {
       res.send(200);
-    }).catch((err)=>{
+    }).catch((err) => {
       res.send(err);
     })
   })

@@ -10,12 +10,20 @@ var PlanSchema = new Schema({
         type: String,
         required: true
     },
-    time: {
-        type: String,
+    breakfast: {
+        type: Array,
         required: true
     },
-    recipes: {
+    lunch: {
         type: Array,
+        required: true
+    },
+    dinner: {
+        type: Array,
+        required: true
+    },
+    user: {
+        type: String,
         required: true
     }
 });
