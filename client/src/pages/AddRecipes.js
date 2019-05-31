@@ -9,7 +9,8 @@ class AddRecipes extends Component {
             title: this.props.recipe ? this.props.recipe.title : "",
             steps: this.props.recipe ? this.props.recipe.steps : [],
             ingredients: this.props.recipe ? this.props.recipe.ingredients : [],
-            method: this.props.recipe ? "put" : "post"
+            method: this.props.recipe ? "put" : "post",
+            titleErr: null
         }
     }
 
@@ -27,9 +28,16 @@ class AddRecipes extends Component {
             };
             axios[this.state.method]("/add/recipe", recipe).then((response) => {
                 console.log(response.data);
+                if(typeof response.data === "string"){
+                    this.setState({
+                        titleErr: response.data
+                    });
+                }else{
+                    this.props.refresh();
+                    this.props.onSave(e);
+                }
             });
-            this.props.refresh();
-            this.props.onSave(e);
+           
         }
     }
     handleDelete = (e) => {
@@ -104,6 +112,8 @@ class AddRecipes extends Component {
                 <form>
                     <label>Title: </label>
                     <input name="title" onChange={this.handleChange} value={this.state.title}></input>
+                    <br/>
+                    <p>{this.state.titleErr}</p>
                 </form>
 
                 <form id="ingredients" onSubmit={this.handleSubmit}>
