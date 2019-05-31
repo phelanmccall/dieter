@@ -146,13 +146,13 @@ router.route("/add/recipe")
     }
 
     db.Recipes.findOne(conditions).then((data) => {
-      console.log(data);
+      console.log("DATA: " + data);
       if(data.title && data.title === title){
         res.send("Error: recipe title already exists.")
       }else{
-        console.log(update);
+        console.log("UPDATE: " + update);
         db.Recipes.create(update).then((rx)=>{
-          console.log(rx);
+          console.log("RX: " + rx);
           res.send(rx);
         }).catch((err)=>{
           res.send(err);
