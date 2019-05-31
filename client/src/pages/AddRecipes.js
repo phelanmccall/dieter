@@ -60,9 +60,12 @@ class AddRecipes extends Component {
     deleteStep = (e) =>{
         e.preventDefault();
         console.log(e.target.id);
-        let newArray = this.state.steps.splice(e.target.id);
+        let newArray = this.state.steps;
+        newArray.splice(e.target.id, 1);
         this.setState({
             steps: newArray
+        },()=>{
+            console.log(this.state);
         });
     }
 
@@ -83,9 +86,10 @@ class AddRecipes extends Component {
             
 
                 <nav>
-                    <div>RECIPES</div>
-
+                
+                    <button onClick={this.props.onSave}>Cancel</button>
                     <button onClick={this.handleSave}>Save</button>
+
                 </nav>  
 
                 <form>
