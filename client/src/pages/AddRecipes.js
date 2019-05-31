@@ -134,8 +134,10 @@ class AddRecipes extends Component {
                     }
                 </ol>
 
+                    {
+                        this.state.method === "put" ? <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button> : "" 
 
-                <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button>
+                    }
             </div>
         );
     }
