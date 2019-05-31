@@ -30,6 +30,7 @@ class AddRecipes extends Component {
         });
 
         this.props.onSave(e);
+        this.props.refresh();
        }
     }
 
@@ -42,6 +43,27 @@ class AddRecipes extends Component {
         }, function(){
             console.log(this.state)
         })
+    }
+
+    deleteItem = (e) =>{
+        e.preventDefault();
+        console.log(e.target.id);
+        let newArray = this.state.ingredients;
+        newArray.splice(e.target.id, 1);
+        console.log(newArray);
+        this.setState({
+            ingredients: newArray
+        }, ()=>{
+            console.log(this.state)
+        });
+    }
+    deleteStep = (e) =>{
+        e.preventDefault();
+        console.log(e.target.id);
+        let newArray = this.state.steps.splice(e.target.id);
+        this.setState({
+            steps: newArray
+        });
     }
 
     handleChange = (e) =>{
@@ -79,8 +101,8 @@ class AddRecipes extends Component {
 
                 <ul>
                     {
-                        this.state.ingredients.map(function(val, key){
-                            return <li key={key}>{val}</li>
+                        this.state.ingredients.map((val, key)=>{
+                            return <li key={key}>{val} <button id={key} onClick={this.deleteItem}>Delete</button></li>
                         })
                     }
                 </ul>
@@ -93,8 +115,8 @@ class AddRecipes extends Component {
 
                 <ol>
                     {
-                        this.state.steps.map(function(val, key){
-                            return <li key={key}>{val}</li>
+                        this.state.steps.map((val, key)=>{
+                            return <li key={key}>{val}<button id={key} onClick={this.deleteStep}>Delete</button></li>
                         })
                     }
                 </ol>

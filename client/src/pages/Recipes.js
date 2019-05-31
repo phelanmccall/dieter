@@ -18,7 +18,7 @@ class Recipes extends Component{
         }))
     }
 
-    componentDidMount(){
+    updateRecipes = () =>{
         Axios.get("/myRecipes").then((response)=>{
             console.log(response.data);
             this.setState({
@@ -27,6 +27,10 @@ class Recipes extends Component{
         }).catch((err)=>{
             console.log(err);
         })
+    }
+
+    componentDidMount(){
+     this.updateRecipes();
         
     }
 
@@ -36,7 +40,7 @@ class Recipes extends Component{
         return (
             
             this.state.add ? 
-                <AddRecipes onSave={this.toggle} recipe={this.state.selected}/>
+                <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected}/>
             :
                 <div>
                     <button onClick={
