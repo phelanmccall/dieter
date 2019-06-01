@@ -85,7 +85,7 @@ class Planner extends Component {
     }
 
     updatePlan = () =>{
-        Axios.post("/add/plan", this.state)
+        Axios.post("/add/plans", this.state)
             .then((response)=>{
                 console.log(response.data);
             })
