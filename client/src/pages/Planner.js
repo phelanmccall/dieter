@@ -26,7 +26,7 @@ class Planner extends Component {
 
         this.setState({
             [e.target.meal.value]: meal
-        });
+        }, this.updatePlan);
 
     }
 
@@ -38,7 +38,7 @@ class Planner extends Component {
         newArray.splice(key, 1);
         this.setState({
             [type]: newArray
-        });
+        }, this.updatePlan);
     }
 
     handleDate = (e) => {
