@@ -86,7 +86,13 @@ class Planner extends Component {
 
     updatePlan = () =>{
 
-        let update = this.state;
+        let {date, breakfast, lunch, dinner } = this.state;
+        let update = {
+            date,
+            breakfast,
+            lunch,
+            dinner
+        };
         update.date = `${update.date.getFullYear()}-${update.date.getMonth()}-${update.date.getDay()}`;
 
 
@@ -106,6 +112,7 @@ class Planner extends Component {
 
     render() {
         var { date } = this.state;
+        console.log(this.state);
         return (
             <div className="container">
                 <Header />
