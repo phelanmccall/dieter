@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import Axios from "axios";
 
-var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var meals = ["breakfast", "lunch", "dinner"];
 class Planner extends Component {
 
     state = {
         user: null,
-        foods: [{ name: "pizza" }, { name: "Cereal" }],
+        foods: [{ title: "pizza" }, { title: "Cereal" }],
         date: new Date(),
         breakfast: [],
         lunch: [],
@@ -50,7 +50,20 @@ class Planner extends Component {
             date: date
         }, this.getToday)
     }
+    changeDate = (e) => {
+        e.preventDefault();
+        let dateInput = document.getElementById("date");
+        console.log(e.target.id);
+        if(e.target.id === "<"){
+            dateInput.stepDown();
+        }else{
+            dateInput.stepUp();
+        }
+        this.setState({
+            date: dateInput.valueAsDate
+        }, this.getToday);
 
+    }
     getUserInfo = () =>{
       
         this.getRecipes();
@@ -58,8 +71,8 @@ class Planner extends Component {
     }
     getToday = () =>{
         let { date } = this.state;
-        var today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
-        Axios.get("/meals/" + today)
+        
+        Axios.get("/meals/" + this.format(date))
             .then((response)=>{
                 console.log(response.data);
                 let {breakfast,lunch,dinner} = response.data;
@@ -88,14 +101,13 @@ class Planner extends Component {
 
         let {date, breakfast, lunch, dinner } = this.state;
         let update = {
-            date,
             breakfast,
             lunch,
             dinner
         };
-        update.date = `${update.date.getFullYear()}-${update.date.getMonth()}-${update.date.getDay()}`;
+        update.date = this.format(date);
 
-
+        console.log(update.date)
         Axios.post("/add/plans", update)
             .then((response)=>{
                 console.log(response.data);
@@ -105,23 +117,30 @@ class Planner extends Component {
             })
     }
 
-    componentWillMount(){
-        this.getUserInfo();
+    format = (date) =>{
+        return `${date.getUTCFullYear()}-${(date.getUTCMonth() +1 ) < 10 ? "0" + (date.getUTCMonth() +1 ) : (date.getUTCMonth() +1 )}-${date.getUTCDate() < 10 ? "0" + date.getUTCDate() : date.getUTCDate()}`
     }
 
+    componentWillMount(){
+        this.getUserInfo();
+
+    }
+    
 
     render() {
         var { date } = this.state;
-        console.log(this.state);
+        console.log(this.state)
+        console.log(this.format(date));
         return (
             <div className="container">
                 <Header />
 
-                <div className="row">
-                    <input className="d-inline m-auto d-block" type="date" onChange={this.handleDate}></input>
-
+                <div className="row justify-content-center">
+                   <button onClick={this.changeDate} id="<" className="mr-0" type="button" >{"<"}</button> 
+                   <input id="date" className="d-inline d-block" type="date" onChange={this.handleDate} value={this.format(date)}></input>
+                   <button onClick={this.changeDate} id=">" className="ml-0" type="button" >{">"}</button>
                     {
-                        date ? <div className="col-12 m-auto">{weekdays[date.getDay()]}, {months[date.getMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
+                        date ? <div className="col-12 m-auto">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
 
                 </div>
