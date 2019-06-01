@@ -101,8 +101,11 @@ router.route("/meals/:date").get(function (req, res) {
     user: req.user.username,
     date: req.params.date
   }).then((plan) => {
-    console.log(plan.toJSON());
-    res.send(plan);
+    if(plan){
+      res.send(plan);
+    }else{
+      res.send({breakfast:[],lunch:[], dinner:[]});
+    }
   }).catch((err) => {
     console.log(err);
     res.status(404).send();
@@ -114,7 +117,7 @@ router.route("/add/plans")
     let {date, breakfast, lunch, dinner} = req.body;
     let user = req.user.username;
 
-    db.Plans.findOneOrCreate({
+    db.Plans.findOneAndUpdate({
       date,
       user
     },
