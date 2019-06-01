@@ -85,7 +85,12 @@ class Planner extends Component {
     }
 
     updatePlan = () =>{
-        Axios.post("/add/plans", this.state)
+
+        let update = this.state;
+        update.date = `${update.date.getFullYear()}-${update.date.getMonth()}-${update.date.getDay()}`;
+
+
+        Axios.post("/add/plans", update)
             .then((response)=>{
                 console.log(response.data);
             })
