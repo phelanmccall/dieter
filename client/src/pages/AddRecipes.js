@@ -90,16 +90,19 @@ class AddRecipes extends Component {
         console.log(e.target.nextElementSibling);
         let newEl = document.createElement("input");
         newEl.value = e.target.attributes.data.value;
+        newEl.className = "btn";
         let newButton = document.createElement("button");
         newButton.innerHTML = "Save";
         newButton.name = e.target.name;
         newButton.id = e.target.id;
+        newButton.className = "btn btn-outline-dark";
         newButton.onclick = (e3) => {
             console.log("SUBMIT");
             let newArray = this.state[e3.target.name];
             newArray.splice(e3.target.id, 1, newEl.value);
             let newDiv = document.createElement("div");
             newDiv.innerHTML = newEl.value;
+            newDiv.className="btn";
             console.log(newDiv);
             e3.target.parentElement.replaceChild(newDiv, newEl);
             e3.target.setAttribute("data", newEl.value);
@@ -138,46 +141,46 @@ class AddRecipes extends Component {
 
                 <nav>
 
-                    <button onClick={this.props.onSave}>Cancel</button>
-                    <button onClick={this.handleSave}>Save</button>
+                    <button className="btn btn-outline-dark" onClick={this.props.onSave}>Cancel</button>
+                    <button className="btn btn-outline-dark" onClick={this.handleSave}>Save</button>
 
                 </nav>
 
                 <form>
-                    <label>Title: </label>
-                    <input name="title" onChange={this.handleChange} value={this.state.title}></input>
+                    <label className="btn">Title: </label>
+                    <input className="btn" name="title" onChange={this.handleChange} value={this.state.title}></input>
                     <br />
                     <p className="text-danger">{this.state.titleErr}</p>
                 </form>
 
                 <form id="ingredients" onSubmit={this.handleSubmit}>
-                    <label>Add Ingredient</label>
-                    <input name="name"></input>
-                    <input type="submit"></input>
+                    <label className="btn">Add Ingredient</label>
+                    <input className="btn" name="name"></input>
+                    <input className="btn btn-outline-dark" type="submit" value="Submit"></input>
                 </form>
 
                 <ul>
                     {
                         this.state.ingredients.map((val, key) => {
                             return <li key={key}>
-                                <button name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
-                                <div >{val}</div><button id={key} onClick={this.deleteItem}>Delete</button></li>
+                                <button className="btn btn-outline-dark"  name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div >{val}</div><button className="btn btn-outline-dark"  id={key} onClick={this.deleteItem}>Delete</button></li>
                         })
                     }
                 </ul>
 
                 <form id="steps" onSubmit={this.handleSubmit}>
-                    <label>Add step</label>
-                    <input name="name"></input>
-                    <input type="submit"></input>
+                    <label className="btn">Add step</label>
+                    <input className="btn" name="name"></input>
+                    <input className="btn btn-outline-dark" type="submit" value="Submit"></input>
                 </form>
 
                 <ol>
                     {
                         this.state.steps.map((val, key) => {
                             return <li key={key}>
-                                <button name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
-                                <div>{val}</div><button id={key} onClick={this.deleteStep}>Delete</button></li>
+                                <button className="btn btn-outline-dark"  name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div>{val}</div><button className="btn btn-outline-dark"  id={key} onClick={this.deleteStep}>Delete</button></li>
                         })
                     }
                 </ol>

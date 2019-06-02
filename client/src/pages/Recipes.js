@@ -46,13 +46,13 @@ class Recipes extends Component {
                         <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected} />
                         :
                         <div>
-                            <button onClick={
+                            <button className="btn btn-outline-dark" onClick={
                                 this.toggle
                             }>ADD RECIPE</button>
 
                             {
                                 this.state.recipes.map((val, key) => {
-                                    return <button onClick={(e) => {
+                                    return <button className="btn btn-outline-dark" onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({

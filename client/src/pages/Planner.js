@@ -159,26 +159,26 @@ class Planner extends Component {
                 <Header />
 
                 <div className="row justify-content-center">
-                    <button onClick={this.changeDate} id="<" className="mr-0" type="button" >{"<"}</button>
-                    <input id="date" className="d-inline d-block" type="date" onChange={this.handleDate} value={this.format(date)}></input>
-                    <button onClick={this.changeDate} id=">" className="ml-0" type="button" >{">"}</button>
+                    <button onClick={this.changeDate} id="<" className="mr-0 btn btn-light" type="button" >{"<"}</button>
+                    <input id="date" className="d-inline d-block btn" type="date" onChange={this.handleDate} value={this.format(date)}></input>
+                    <button onClick={this.changeDate} id=">" className="ml-0 btn btn-light" type="button" >{">"}</button>
                     {
-                        date ? <div className="col-12 m-auto">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
+                        date ? <div className="col-12 m-auto btn">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
 
                 </div>
 
                 <form onSubmit={this.addFood}>
-                    <span>Add </span>
-                    <select name="food" id="food">
+                    <span className="btn">Add </span>
+                    <select className="btn" name="food" id="food">
                         {
                             this.state.foods.map((val, key) => {
                                 return <option key={key} value={val.title}>{val.title}</option>
                             })
                         }
                     </select>
-                    <span> To </span>
-                    <select name="meal" id="meal">
+                    <span className="btn"> To </span>
+                    <select className="btn" name="meal" id="meal">
                         {
                             meals.map((val, key) => {
                                 return <option key={key} value={val}>{val}</option>
@@ -187,7 +187,7 @@ class Planner extends Component {
                     </select>
 
 
-                    <input type="submit" value="submit"></input>
+                    <input className="btn btn-outline-dark" type="submit" value="submit"></input>
 
                 </form>
 
@@ -229,15 +229,15 @@ class Planner extends Component {
                 </div>
 
                 <div>
-                    <p>Breakfast:</p>
+                    <p className="btn">Breakfast:</p>
                     {
                         this.state.breakfast.map((val, key) => {
                             return <div key={key}>
-                                <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                                <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                     </button>
-                                {val}
-                                <button data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                <div className="btn">{val}</div>
+                                <button className="btn btn-outline-dark" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
                                     DELETE
                                     </button>
                             </div>
@@ -246,29 +246,29 @@ class Planner extends Component {
                 </div>
 
                 <div>
-                    <p>Lunch:</p>
+                    <p className="btn">Lunch:</p>
                     {
                         this.state.lunch.map((val, key) => {
                             return <div key={key}>
-                            <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                            <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                     </button>
-                                    {val}
-                            <button data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button>
+                                    <div className="btn">{val}</div>
+                            <button className="btn btn-outline-dark" data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button>
                             </div>
                         })
                     }
                 </div>
 
                 <div>
-                    <p>Dinner:</p>
+                    <p className="btn">Dinner:</p>
                     {
                         this.state.dinner.map((val, key) => {
                             return <div key={key}>
-                            <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                            <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                     </button>
-                                        {val}<button data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
+                                        <div className="btn">{val}</div><button className="btn btn-outline-dark" data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
                         })
                     }
                 </div>
