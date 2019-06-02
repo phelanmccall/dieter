@@ -9,11 +9,16 @@ class Planner extends Component {
 
     state = {
         user: null,
-        foods: [{ title: "pizza" }, { title: "Cereal" }],
+        foods: [{ title: "pizza",ingredients: ["pizza"], steps:["make pizza"] }, { title: "cereal",ingredients: ["cereal"], steps:["make cereal"] }],
         date: new Date(),
         breakfast: [],
         lunch: [],
-        dinner: []
+        dinner: [],
+        recipe: {
+            title: "",
+            steps: [],
+            ingredients: []
+        }
     }
 
     addFood = (e) => {
@@ -30,7 +35,7 @@ class Planner extends Component {
 
     }
 
-    removeMeal = (e) =>{
+    removeMeal = (e) => {
         e.preventDefault();
         let type = e.target.getAttribute("data-type");
         let key = e.target.getAttribute("data-key");
@@ -54,9 +59,9 @@ class Planner extends Component {
         e.preventDefault();
         let dateInput = document.getElementById("date");
         console.log(e.target.id);
-        if(e.target.id === "<"){
+        if (e.target.id === "<") {
             dateInput.stepDown();
-        }else{
+        } else {
             dateInput.stepUp();
         }
         this.setState({
@@ -64,42 +69,60 @@ class Planner extends Component {
         }, this.getToday);
 
     }
-    getUserInfo = () =>{
-      
+    getUserInfo = () => {
+
         this.getRecipes();
         this.getToday();
     }
-    getToday = () =>{
+    getToday = () => {
         let { date } = this.state;
-        
+
         Axios.get("/meals/" + this.format(date))
-            .then((response)=>{
+            .then((response) => {
                 console.log(response.data);
-                let {breakfast,lunch,dinner} = response.data;
+                let { breakfast, lunch, dinner } = response.data;
                 this.setState({
                     breakfast,
                     lunch,
                     dinner
                 })
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
     }
 
-    getRecipes = () =>{
-        Axios.get("/myRecipes").then((response)=>{
+
+
+    getOneRecipe = (e) => {
+        e.preventDefault();
+        console.log(e.target.name);
+        let { name } = e.target;
+    
+        for(let i in this.state.foods){
+            if(this.state.foods[i].title === name){
+                this.setState({
+                    recipe: this.state.foods[i]
+                })
+            }
+        }
+        
+
+    }
+
+    getRecipes = () => {
+        Axios.get("/myRecipes").then((response) => {
             console.log(response.data);
             this.setState({
                 foods: response.data
             })
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
         });
     }
 
-    updatePlan = () =>{
+    updatePlan = () => {
 
-        let {date, breakfast, lunch, dinner } = this.state;
+        let { date, breakfast, lunch, dinner } = this.state;
         let update = {
             breakfast,
             lunch,
@@ -109,23 +132,23 @@ class Planner extends Component {
 
         console.log(update.date)
         Axios.post("/add/plans", update)
-            .then((response)=>{
+            .then((response) => {
                 console.log(response.data);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err);
             })
     }
 
-    format = (date) =>{
-        return `${date.getUTCFullYear()}-${(date.getUTCMonth() +1 ) < 10 ? "0" + (date.getUTCMonth() +1 ) : (date.getUTCMonth() +1 )}-${date.getUTCDate() < 10 ? "0" + date.getUTCDate() : date.getUTCDate()}`
+    format = (date) => {
+        return `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1) < 10 ? "0" + (date.getUTCMonth() + 1) : (date.getUTCMonth() + 1)}-${date.getUTCDate() < 10 ? "0" + date.getUTCDate() : date.getUTCDate()}`
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.getUserInfo();
 
     }
-    
+
 
     render() {
         var { date } = this.state;
@@ -136,9 +159,9 @@ class Planner extends Component {
                 <Header />
 
                 <div className="row justify-content-center">
-                   <button onClick={this.changeDate} id="<" className="mr-0" type="button" >{"<"}</button> 
-                   <input id="date" className="d-inline d-block" type="date" onChange={this.handleDate} value={this.format(date)}></input>
-                   <button onClick={this.changeDate} id=">" className="ml-0" type="button" >{">"}</button>
+                    <button onClick={this.changeDate} id="<" className="mr-0" type="button" >{"<"}</button>
+                    <input id="date" className="d-inline d-block" type="date" onChange={this.handleDate} value={this.format(date)}></input>
+                    <button onClick={this.changeDate} id=">" className="ml-0" type="button" >{">"}</button>
                     {
                         date ? <div className="col-12 m-auto">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
@@ -149,53 +172,108 @@ class Planner extends Component {
                     <span>Add </span>
                     <select name="food" id="food">
                         {
-                            this.state.foods.map( (val, key)=> {
+                            this.state.foods.map((val, key) => {
                                 return <option key={key} value={val.title}>{val.title}</option>
                             })
                         }
                     </select>
-                     <span> To </span>
-                     <select name="meal" id="meal">
+                    <span> To </span>
+                    <select name="meal" id="meal">
                         {
-                            meals.map( (val, key)=> {
+                            meals.map((val, key) => {
                                 return <option key={key} value={val}>{val}</option>
                             })
                         }
                     </select>
-                   
+
 
                     <input type="submit" value="submit"></input>
 
                 </form>
 
+                <div className="modal fade" id="display" role="dialog">
+                    <div className="modal-dialog">
+
+                        <div className="modal-content">
+                            <div className="modal-header">
+                            <h4 className="modal-title m-auto">{this.state.recipe.title}</h4>
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                            
+                            </div>
+                            <div className="modal-body">
+                                <p>Ingredients:</p>
+                                <ul>
+                                {
+                                    this.state.recipe.ingredients.map((val, key)=>{
+                                        return <li key={key}>{val}</li>
+                                    })
+                                }
+                                </ul>
+                            </div>
+                            <div className="modal-body">
+                            <p>Steps:</p>
+                                <ol>
+                                {
+                                    this.state.recipe.steps.map((val, key)=>{
+                                        return <li key={key}>{val}</li>
+                                    })
+                                }
+                                </ol>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div>
                     <p>Breakfast:</p>
                     {
-                        this.state.breakfast.map( (val, key)=> {
-                            return <div key={key}>{val}<button data-key={key} data-type="breakfast" onClick={this.removeMeal}>DELETE</button></div>
-                        })
-                    }
-                </div>
-                
-                <div>
-                    <p>Lunch:</p>
-                    {
-                        this.state.lunch.map( (val, key)=> {
-                            return <div key={key}>{val}<button data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button></div>
-                        })
-                    }
-                </div>
-                
-                <div>
-                    <p>Dinner:</p>
-                    {
-                        this.state.dinner.map( (val, key)=> {
-                            return <div key={key}>{val}<button data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
+                        this.state.breakfast.map((val, key) => {
+                            return <div key={key}>
+                                <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                                    View
+                                    </button>
+                                {val}
+                                <button data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                    DELETE
+                                    </button>
+                            </div>
                         })
                     }
                 </div>
 
-            
+                <div>
+                    <p>Lunch:</p>
+                    {
+                        this.state.lunch.map((val, key) => {
+                            return <div key={key}>
+                            <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                                    View
+                                    </button>
+                                    {val}
+                            <button data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button>
+                            </div>
+                        })
+                    }
+                </div>
+
+                <div>
+                    <p>Dinner:</p>
+                    {
+                        this.state.dinner.map((val, key) => {
+                            return <div key={key}>
+                            <button onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                                    View
+                                    </button>
+                                        {val}<button data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
+                        })
+                    }
+                </div>
+
+
             </div>
         );
     }
