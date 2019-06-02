@@ -28,22 +28,22 @@ class AddRecipes extends Component {
             };
             axios[this.state.method]("/add/recipe", recipe).then((response) => {
                 console.log(response.data);
-                if(typeof response.data === "string"){
+                if (typeof response.data === "string") {
                     this.setState({
                         titleErr: response.data
                     });
-                }else{
+                } else {
                     this.props.refresh();
                     this.props.onSave(e);
                 }
             });
-           
+
         }
     }
     handleDelete = (e) => {
         e.preventDefault();
-        if(window.confirm("Are you sure you want to delete this recipe?")){
-            axios.delete("/delete/recipe/"+ this.state.id).then((response)=>{
+        if (window.confirm("Are you sure you want to delete this recipe?")) {
+            axios.delete("/delete/recipe/" + this.state.id).then((response) => {
                 console.log(response.data);
                 this.props.refresh();
                 this.props.onSave(e);
@@ -85,6 +85,40 @@ class AddRecipes extends Component {
             console.log(this.state);
         });
     }
+    editThis = (e) => {
+        e.preventDefault();
+        console.log(e.target.nextElementSibling);
+        let newEl = document.createElement("input");
+        newEl.value = e.target.attributes.data.value;
+        let newButton = document.createElement("button");
+        newButton.innerHTML = "Save";
+        newButton.name = e.target.name;
+        newButton.id = e.target.id;
+        newButton.onclick = (e3) => {
+            console.log("SUBMIT");
+            let newArray = this.state[e3.target.name];
+            newArray.splice(e3.target.id, 1, newEl.value);
+            let newDiv = document.createElement("div");
+            newDiv.innerHTML = newEl.value;
+            console.log(newDiv);
+            e3.target.parentElement.replaceChild(newDiv, newEl);
+            e3.target.setAttribute("data", newEl.value);
+            e3.target.innerHTML = "Edit";
+            e3.target.onclick = this.editThis;
+            newEl.outerHTML = "";
+
+            this.setState({
+                [e3.target.name]: newArray
+            }, ()=>{
+                console.log(this.state)
+            })
+        }
+
+        e.target.parentElement.replaceChild(newEl, e.target.nextElementSibling);
+        e.target.parentElement.replaceChild(newButton, e.target);
+      
+    
+    }
 
     handleChange = (e) => {
         e.preventDefault();
@@ -112,8 +146,8 @@ class AddRecipes extends Component {
                 <form>
                     <label>Title: </label>
                     <input name="title" onChange={this.handleChange} value={this.state.title}></input>
-                    <br/>
-                    <p>{this.state.titleErr}</p>
+                    <br />
+                    <p className="text-danger">{this.state.titleErr}</p>
                 </form>
 
                 <form id="ingredients" onSubmit={this.handleSubmit}>
@@ -125,7 +159,9 @@ class AddRecipes extends Component {
                 <ul>
                     {
                         this.state.ingredients.map((val, key) => {
-                            return <li key={key}>{val} <button id={key} onClick={this.deleteItem}>Delete</button></li>
+                            return <li key={key}>
+                                <button name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div >{val}</div><button id={key} onClick={this.deleteItem}>Delete</button></li>
                         })
                     }
                 </ul>
@@ -139,15 +175,17 @@ class AddRecipes extends Component {
                 <ol>
                     {
                         this.state.steps.map((val, key) => {
-                            return <li key={key}>{val}<button id={key} onClick={this.deleteStep}>Delete</button></li>
+                            return <li key={key}>
+                                <button name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div>{val}</div><button id={key} onClick={this.deleteStep}>Delete</button></li>
                         })
                     }
                 </ol>
 
-                    {
-                        this.state.method === "put" ? <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button> : "" 
+                {
+                    this.state.method === "put" ? <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button> : ""
 
-                    }
+                }
             </div>
         );
     }
