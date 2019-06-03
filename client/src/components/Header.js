@@ -14,9 +14,11 @@ class Header extends Component {
         axios.get("/logout").then((response)=>{
             console.log(response.data);
             window.location.reload();
+
         }).catch((err)=>{
             console.log(err);
-        })
+        });
+
     }
 
     render() {
@@ -25,7 +27,7 @@ class Header extends Component {
             <nav className="navbar navbar-dark bg-dark">
               <div className="navbar-brand btn">Meal Planner</div>
             
-                <button className="btn btn-outline-secondary">Logout</button>
+                <button className="btn btn-outline-secondary" onClick={this.logout}>Logout</button>
           </nav> );
     }
 }
