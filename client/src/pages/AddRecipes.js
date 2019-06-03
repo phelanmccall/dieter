@@ -88,21 +88,21 @@ class AddRecipes extends Component {
     editThis = (e) => {
         e.preventDefault();
         console.log(e.target.nextElementSibling);
-        let newEl = document.createElement("input");
+        let newEl = document.createElement("textarea");
         newEl.value = e.target.attributes.data.value;
-        newEl.className = "btn";
+        newEl.className = "btn btn-outline-dark col-6";
         let newButton = document.createElement("button");
         newButton.innerHTML = "Save";
         newButton.name = e.target.name;
         newButton.id = e.target.id;
-        newButton.className = "btn btn-outline-dark";
+        newButton.className = "btn btn-outline-dark float-left";
         newButton.onclick = (e3) => {
             console.log("SUBMIT");
             let newArray = this.state[e3.target.name];
             newArray.splice(e3.target.id, 1, newEl.value);
             let newDiv = document.createElement("div");
             newDiv.innerHTML = newEl.value;
-            newDiv.className="btn";
+            newDiv.className = "btn col-6";
             console.log(newDiv);
             e3.target.parentElement.replaceChild(newDiv, newEl);
             e3.target.setAttribute("data", newEl.value);
@@ -112,15 +112,15 @@ class AddRecipes extends Component {
 
             this.setState({
                 [e3.target.name]: newArray
-            }, ()=>{
+            }, () => {
                 console.log(this.state)
             })
         }
 
         e.target.parentElement.replaceChild(newEl, e.target.nextElementSibling);
         e.target.parentElement.replaceChild(newButton, e.target);
-      
-    
+
+
     }
 
     handleChange = (e) => {
@@ -139,51 +139,60 @@ class AddRecipes extends Component {
             <div>
 
 
-                <nav>
+                <div className="row">
+                    <div className="col-12 my-2">
 
-                    <button className="btn btn-outline-dark" onClick={this.props.onSave}>Cancel</button>
-                    <button className="btn btn-outline-dark" onClick={this.handleSave}>Save</button>
+                        <button className="btn btn-outline-danger float-left" onClick={this.props.onSave}>Cancel</button>
+                        <button className="btn btn-outline-success float-right" onClick={this.handleSave}>Save</button>
+                    </div>
+                </div>
 
-                </nav>
-
-                <form>
+                <form className="border-top border-dark">
                     <label className="btn">Title: </label>
-                    <input className="btn" name="title" onChange={this.handleChange} value={this.state.title}></input>
+                    <input className="btn btn-outline-dark" name="title" onChange={this.handleChange} value={this.state.title}></input>
                     <br />
                     <p className="text-danger">{this.state.titleErr}</p>
                 </form>
 
-                <form id="ingredients" onSubmit={this.handleSubmit}>
-                    <label className="btn">Add Ingredient</label>
-                    <input className="btn" name="name"></input>
-                    <input className="btn btn-outline-dark" type="submit" value="Submit"></input>
+                <form className=" border-top border-dark" id="ingredients" onSubmit={this.handleSubmit}>
+                    <label className="btn">Enter Ingredient</label>
+                    <input className="btn btn-outline-dark" name="name"></input>
+                    <input className="btn btn-outline-dark" type="submit" value="Add"></input>
                 </form>
 
-                <ul>
+                <div className="row">
                     {
                         this.state.ingredients.map((val, key) => {
-                            return <li key={key}>
-                                <button className="btn btn-outline-dark"  name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
-                                <div >{val}</div><button className="btn btn-outline-dark"  id={key} onClick={this.deleteItem}>Delete</button></li>
+                            return <div className="col-12 justify-content-center" key={key}>
+                                <button className="btn btn-outline-dark float-left" name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div className="btn mx-auto col-6">{val}</div>
+                                <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteItem}>Delete</button>
+                            </div>
                         })
                     }
-                </ul>
 
-                <form id="steps" onSubmit={this.handleSubmit}>
-                    <label className="btn">Add step</label>
-                    <input className="btn" name="name"></input>
-                    <input className="btn btn-outline-dark" type="submit" value="Submit"></input>
+
+                </div>
+
+
+
+                <form className=" border-top border-dark mt-1" id="steps" onSubmit={this.handleSubmit}>
+                    <label className="btn border-top">Enter Step</label>
+                    <input className="btn btn-outline-dark" name="name"></input>
+                    <input className="btn btn-outline-dark" type="submit" value="Add"></input>
                 </form>
 
-                <ol>
+                <div className="row">
                     {
                         this.state.steps.map((val, key) => {
-                            return <li key={key}>
-                                <button className="btn btn-outline-dark"  name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
-                                <div>{val}</div><button className="btn btn-outline-dark"  id={key} onClick={this.deleteStep}>Delete</button></li>
+                            return <div className="col-12 justify-content-center" key={key}>
+                                <button className="btn btn-outline-dark float-left" name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
+                                <div className="btn mx-auto col-6">{val}</div>
+                                <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteStep}>Delete</button>
+                            </div>
                         })
                     }
-                </ol>
+                </div>
 
                 {
                     this.state.method === "put" ? <button className="btn btn-danger" onClick={this.handleDelete}>DELETE</button> : ""

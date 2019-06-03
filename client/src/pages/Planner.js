@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import Axios from "axios";
 
 var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -9,7 +9,7 @@ class Planner extends Component {
 
     state = {
         user: null,
-        foods: [{ title: "pizza",ingredients: ["pizza"], steps:["make pizza"] }, { title: "cereal",ingredients: ["cereal"], steps:["make cereal"] }],
+        foods: [{ title: "pizza", ingredients: ["pizza"], steps: ["make pizza"] }, { title: "cereal", ingredients: ["cereal"], steps: ["make cereal"] }],
         date: new Date(),
         breakfast: [],
         lunch: [],
@@ -97,15 +97,15 @@ class Planner extends Component {
         e.preventDefault();
         console.log(e.target.name);
         let { name } = e.target;
-    
-        for(let i in this.state.foods){
-            if(this.state.foods[i].title === name){
+
+        for (let i in this.state.foods) {
+            if (this.state.foods[i].title === name) {
                 this.setState({
                     recipe: this.state.foods[i]
                 })
             }
         }
-        
+
 
     }
 
@@ -155,30 +155,30 @@ class Planner extends Component {
         console.log(this.state)
         console.log(this.format(date));
         return (
-            <div className="container">
-                <Header />
+            <div className="container-fluid">
+                <Navbar />
 
                 <div className="row justify-content-center">
-                    <button onClick={this.changeDate} id="<" className="mr-0 btn btn-light" type="button" >{"<"}</button>
+                    <button onClick={this.changeDate} id="<" className="mr-0 btn btn-secondary" type="button" >{"<"}</button>
                     <input id="date" className="d-inline d-block btn" type="date" onChange={this.handleDate} value={this.format(date)}></input>
-                    <button onClick={this.changeDate} id=">" className="ml-0 btn btn-light" type="button" >{">"}</button>
+                    <button onClick={this.changeDate} id=">" className="ml-0 btn btn-secondary" type="button" >{">"}</button>
                     {
                         date ? <div className="col-12 m-auto btn">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
 
                 </div>
 
-                <form onSubmit={this.addFood}>
-                    <span className="btn">Add </span>
-                    <select className="btn" name="food" id="food">
+                <form className="container-fluid" onSubmit={this.addFood}>
+                  <div className="row">
+                  <select className="btn btn-outline-dark col" name="food" id="food">
                         {
                             this.state.foods.map((val, key) => {
                                 return <option key={key} value={val.title}>{val.title}</option>
                             })
                         }
                     </select>
-                    <span className="btn"> To </span>
-                    <select className="btn" name="meal" id="meal">
+                    <span className="btn"> For </span>
+                    <select className="btn btn-outline-dark col" name="meal" id="meal">
                         {
                             meals.map((val, key) => {
                                 return <option key={key} value={val}>{val}</option>
@@ -187,8 +187,9 @@ class Planner extends Component {
                     </select>
 
 
-                    <input className="btn btn-outline-dark" type="submit" value="submit"></input>
+                    <input className="btn col float-right btn-outline-dark" type="submit" value="Add"></input>
 
+                  </div>
                 </form>
 
                 <div className="modal fade" id="display" role="dialog">
@@ -196,28 +197,28 @@ class Planner extends Component {
 
                         <div className="modal-content">
                             <div className="modal-header">
-                            <h4 className="modal-title m-auto">{this.state.recipe.title}</h4>
+                                <h4 className="modal-title m-auto">{this.state.recipe.title}</h4>
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
-                            
+
                             </div>
                             <div className="modal-body">
-                                <p>Ingredients:</p>
+                                <div>Ingredients:</div>
                                 <ul>
-                                {
-                                    this.state.recipe.ingredients.map((val, key)=>{
-                                        return <li key={key}>{val}</li>
-                                    })
-                                }
+                                    {
+                                        this.state.recipe.ingredients.map((val, key) => {
+                                            return <li key={key}>{val}</li>
+                                        })
+                                    }
                                 </ul>
                             </div>
                             <div className="modal-body">
-                            <p>Steps:</p>
+                                <div>Steps:</div>
                                 <ol>
-                                {
-                                    this.state.recipe.steps.map((val, key)=>{
-                                        return <li key={key}>{val}</li>
-                                    })
-                                }
+                                    {
+                                        this.state.recipe.steps.map((val, key) => {
+                                            return <li key={key}>{val}</li>
+                                        })
+                                    }
                                 </ol>
                             </div>
                             <div className="modal-footer">
@@ -228,16 +229,16 @@ class Planner extends Component {
                     </div>
                 </div>
 
-                <div>
-                    <p className="btn">Breakfast:</p>
+                <div className="bg-info row">
+                    <div className="btn mx-auto col-12">Breakfast:</div>
                     {
                         this.state.breakfast.map((val, key) => {
-                            return <div key={key}>
-                                <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                            return <div className="col-12 justify-content-center" key={key}>
+                                <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                     </button>
-                                <div className="btn">{val}</div>
-                                <button className="btn btn-outline-dark" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                <div className="btn mx-auto">{val}</div>
+                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
                                     DELETE
                                     </button>
                             </div>
@@ -245,30 +246,36 @@ class Planner extends Component {
                     }
                 </div>
 
-                <div>
-                    <p className="btn">Lunch:</p>
+                <div className="bg-success row">
+                    <div className="btn mx-auto col-12">Lunch:</div>
                     {
                         this.state.lunch.map((val, key) => {
-                            return <div key={key}>
-                            <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                            return <div className="col-12 justify-content-center" key={key}>
+                                <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
-                                    </button>
-                                    <div className="btn">{val}</div>
-                            <button className="btn btn-outline-dark" data-key={key} data-type="lunch" onClick={this.removeMeal}>DELETE</button>
+                                </button>
+                                <div className="btn mx-auto">{val}</div>
+                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                    DELETE
+                                </button>
                             </div>
                         })
                     }
                 </div>
 
-                <div>
-                    <p className="btn">Dinner:</p>
+                <div className="bg-warning row">
+                    <div className="btn mx-auto col-12">Dinner:</div>
                     {
                         this.state.dinner.map((val, key) => {
-                            return <div key={key}>
-                            <button className="btn btn-outline-dark" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
+                            return <div className="col-12 justify-content-center" key={key}>
+                                <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
-                                    </button>
-                                        <div className="btn">{val}</div><button className="btn btn-outline-dark" data-key={key} data-type="dinner" onClick={this.removeMeal}>DELETE</button></div>
+                                </button>
+                                <div className="btn mx-auto">{val}</div>
+                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                    DELETE
+                                </button>
+                            </div>
                         })
                     }
                 </div>

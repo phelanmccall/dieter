@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Link} from "react-router-dom";
+import axios from "axios";
+
 
 class Header extends Component {
 
@@ -8,17 +9,24 @@ class Header extends Component {
     //     browserHistory.push(e.target.name);
     // }
 
+    logout = (e) => {
+        e.preventDefault();
+        axios.get("/logout").then((response)=>{
+            console.log(response.data);
+            window.location.reload();
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
     render() {
         console.log(window.location.pathname);
         return (
-            <div className="container-fluid">
-            <div className="row text-secondary">
-                <Link  className={window.location.pathname === "/recipes" ? "col-6 btn btn-dark" : "col-6 btn btn-outline-dark" } to="/recipes">Recipes</Link>
-              
-                <Link className={window.location.pathname === "/planner" ? "col-6 btn btn-dark" : "col-6 btn btn-outline-dark" } to="/planner">Planner</Link>
-           
-            </div>
-          </div> );
+            <nav className="navbar navbar-dark bg-dark">
+              <div className="navbar-brand btn">Meal Planner</div>
+            
+                <button className="btn btn-outline-secondary">Logout</button>
+          </nav> );
     }
 }
 

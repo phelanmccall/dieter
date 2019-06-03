@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import AddRecipes from "./AddRecipes";
-import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 
 class Recipes extends Component {
 
@@ -38,8 +38,8 @@ class Recipes extends Component {
         console.log(this.state.add);
 
         return (
-            <div className="container">
-                <Header />
+            <div className="container-fluid">
+                <Navbar />
 
                 {
                     this.state.add ?
