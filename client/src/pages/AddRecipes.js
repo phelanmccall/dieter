@@ -147,12 +147,12 @@ class AddRecipes extends Component {
                     </div>
                 </div>
 
-                <form className="border-top border-dark">
+                <div className="border-top border-dark">
                     <label className="btn">Title: </label>
                     <input className="btn btn-outline-dark" name="title" onChange={this.handleChange} value={this.state.title}></input>
                     <br />
-                    <p className="text-danger">{this.state.titleErr}</p>
-                </form>
+                    <div className="text-danger">{this.state.titleErr}</div>
+                </div>
 
                 <form className=" border-top border-dark" id="ingredients" onSubmit={this.handleSubmit}>
                     <label className="btn">Enter Ingredient</label>
