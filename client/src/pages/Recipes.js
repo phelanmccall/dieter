@@ -6,8 +6,7 @@ import Navbar from "../components/Navbar";
 class Recipes extends Component {
 
     state = {
-        recipes: [{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title t col-6 my-3 mx-autoit",id:"id"},{title:"title title tit",id:"id"},{title:"title titl col-6 my-3 mx-autoe tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"}],
-
+        recipes: [],
         add: false
     }
 
