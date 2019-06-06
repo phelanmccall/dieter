@@ -255,7 +255,7 @@ class Planner extends Component {
                                     View
                                 </button>
                                 <div className="btn mx-auto">{val}</div>
-                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="lunch" onClick={this.removeMeal}>
                                     DELETE
                                 </button>
                             </div>
@@ -272,7 +272,7 @@ class Planner extends Component {
                                     View
                                 </button>
                                 <div className="btn mx-auto">{val}</div>
-                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
+                                <button className="btn btn-outline-dark float-right" data-key={key} data-type="dinner" onClick={this.removeMeal}>
                                     DELETE
                                 </button>
                             </div>
