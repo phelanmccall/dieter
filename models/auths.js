@@ -17,7 +17,26 @@ var AuthSchema = new Schema({
     required: true
   }
 });
-
+AuthSchema.pre("deleteOne", { document: true }, function(next) {
+  let username = this.getQuery()["username"];
+  mongoose.model("Plan").deleteMany({ user: username }, function(err, result) {
+    if (err) {
+      next(err);
+    } else {
+      next();
+    }
+  });
+});
+AuthSchema.pre("deleteOne", { document: true }, function(next) {
+  let username = this.getQuery()["username"];
+  mongoose.model("Recipe").deleteMany({ user: username }, function(err, result) {
+    if (err) {
+      next(err);
+    } else {
+      next();
+    }
+  });
+});
 // This creates our model from the above schema, using mongoose's model method
 var Auths = mongoose.model("Auth", AuthSchema);
 

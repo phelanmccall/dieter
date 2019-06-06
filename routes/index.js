@@ -94,8 +94,23 @@ router.route("/login")
 router.route("/logout").get(function (req, res) {
   req.logout();
   res.redirect("/");
-})
+});
 
+router.route("/:username")
+  .delete(function(req, res){
+    if(req.user.username === req.params.username){
+      db.Auths.deleteOne({
+        username: req.user.username
+      }).then((doc)=>{
+        console.log("Deleted: " + doc);
+        res.send(doc);
+      }).catch((err)=>{
+        console.log(err);
+        res.send(err);
+      })
+    }
+   
+  })
 router.route("/meals/:date").get(function (req, res) {
   db.Plans.findOne({
     user: req.user.username,
