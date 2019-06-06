@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
-
 
 class Header extends Component {
 
@@ -29,7 +27,7 @@ class Header extends Component {
               <div className="row h-50" >
                     <img style={{
                         "max-height": "8vh"
-                    }} className="img img-fluid border border-dark rounded-circle rounded mr-4" src="https://avatars1.githubusercontent.com/u/12578723?s=460&v=4" />
+                    }} className="img img-fluid border border-dark rounded-circle rounded mr-4" alt="profile pic" src="https://via.placeholder.com/140x140"/>
                 </div>
                 {/* <button className="btn btn-outline-secondary" onClick={this.logout}>Logout</button> */}
           </nav> );
