@@ -52,7 +52,7 @@ class Recipes extends Component {
 
                             {
                                 this.state.recipes.map((val, key) => {
-                                    return <button className="btn btn-outline-dark" onClick={(e) => {
+                                    return <button className="btn btn-outline-dark m-2" onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({
