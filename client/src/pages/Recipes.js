@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 class Recipes extends Component {
 
     state = {
-        recipes: [],
+        recipes: [{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"}],
 
         add: false
     }
@@ -46,13 +46,13 @@ class Recipes extends Component {
                         <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected} />
                         :
                         <div>
-                            <button className="btn btn-outline-dark" onClick={
+                            <button className="btn btn-success m-3" onClick={
                                 this.toggle
-                            }>ADD RECIPE</button>
+                            }>ADD</button>
 
                             {
                                 this.state.recipes.map((val, key) => {
-                                    return <button className="btn btn-outline-dark m-2" onClick={(e) => {
+                                    return <button className="btn btn-outline-dark m-3" onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({
