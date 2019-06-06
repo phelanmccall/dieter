@@ -237,7 +237,7 @@ class Planner extends Component {
                                 <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                     </button>
-                                <div className="btn mx-auto">{val}</div>
+                                <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" data-key={key} data-type="breakfast" onClick={this.removeMeal}>
                                     DELETE
                                     </button>
@@ -254,7 +254,7 @@ class Planner extends Component {
                                 <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                 </button>
-                                <div className="btn mx-auto">{val}</div>
+                                <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" data-key={key} data-type="lunch" onClick={this.removeMeal}>
                                     DELETE
                                 </button>
@@ -271,7 +271,7 @@ class Planner extends Component {
                                 <button className="btn btn-outline-dark float-left" onClick={this.getOneRecipe} name={val} type="button" data-toggle="modal" data-target="#display">
                                     View
                                 </button>
-                                <div className="btn mx-auto">{val}</div>
+                                <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" data-key={key} data-type="dinner" onClick={this.removeMeal}>
                                     DELETE
                                 </button>
