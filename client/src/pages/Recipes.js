@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 class Recipes extends Component {
 
     state = {
-        recipes: [{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"},{title:"title",id:"id"}],
+        recipes: [{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title t col-6 my-3 mx-autoit",id:"id"},{title:"title title tit",id:"id"},{title:"title titl col-6 my-3 mx-autoe tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"},{title:"title title tit",id:"id"}],
 
         add: false
     }
@@ -45,14 +45,16 @@ class Recipes extends Component {
                     this.state.add ?
                         <AddRecipes onSave={this.toggle} refresh={this.updateRecipes} recipe={this.state.selected} />
                         :
-                        <div>
-                            <button className="btn btn-success m-3" onClick={
+                        <div className="container-fluid">
+                            <div className="row">
+                            <button className="btn btn-success col-6 my-3 mx-auto" onClick={
                                 this.toggle
                             }>ADD</button>
-
+                            </div>
+                            <div className="row justify-content-center">
                             {
                                 this.state.recipes.map((val, key) => {
-                                    return <button className="btn btn-outline-dark m-3" onClick={(e) => {
+                                    return <button className="btn btn-outline-dark btn-info my-1 mx-2 " onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({
@@ -63,6 +65,7 @@ class Recipes extends Component {
                                     }} id={key} key={key}>{val.title}</button>
                                 })
                             }
+                            </div>
                         </div>
                 }
             </div>

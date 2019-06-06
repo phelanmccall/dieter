@@ -25,15 +25,15 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-dark bg-dark">
                 <div className="navbar-brand btn">Meal Planner</div>
-                <div className="dropdown mr-5">
+                <div className="dropdown float-right">
                         
                         <img className="img-fluid border rounded-circle" id="avatar" 
                             data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"
-                            src="https://via.placeholder.com/50x50" alt="Avatar"/>
+                            src="https://via.placeholder.com/50x50" alt="Avatar"/>  
                      
-                        <div className="dropdown-menu dropdown-menu-left" aria-labelledby="avatar-dropdown-menu">
-                            <button  onClick={this.logout} className="dropdown-item">Logout</button>
+                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="avatar-dropdown-menu">
+                            <button onClick={this.logout} className="dropdown-item">Logout</button>
 
                         </div>
                     </div>
