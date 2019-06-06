@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Header extends Component {
 
@@ -7,30 +8,38 @@ class Header extends Component {
     //     browserHistory.push(e.target.name);
     // }
 
-    // logout = (e) => {
-    //     e.preventDefault();
-    //     axios.get("/logout").then((response)=>{
-    //         console.log(response.data);
-    //         window.location.reload();
+    logout = (e) => {
+        e.preventDefault();
+        axios.get("/logout").then((response)=>{
+            console.log(response.data);
+            window.location.reload();
 
-    //     }).catch((err)=>{
-    //         console.log(err);
-    //     });
+        }).catch((err)=>{
+            console.log(err);
+        });
 
-    // }
+    }
 
     render() {
         console.log(window.location.pathname);
         return (
             <nav className="navbar navbar-dark bg-dark">
-              <div className="navbar-brand btn">Meal Planner</div>
-              <div className="row h-50" >
-                    <img style={{
-                        "max-height": "8vh"
-                    }} className="img img-fluid border border-dark rounded-circle rounded mr-4" alt="profile pic" src="https://via.placeholder.com/140x140"/>
-                </div>
+                <div className="navbar-brand btn">Meal Planner</div>
+                <div className="dropdown">
+                        
+                        <img className="img-fluid border rounded-circle" id="avatar" 
+                            data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"
+                            src="https://via.placeholder.com/50x50" alt="Avatar"/>
+                     
+                        <div className="dropdown-menu" aria-labelledby="avatar-dropdown-menu">
+                            <button  onClick={this.logout} className="dropdown-item">Logout</button>
+
+                        </div>
+                    </div>
+               
                 {/* <button className="btn btn-outline-secondary" onClick={this.logout}>Logout</button> */}
-          </nav> );
+            </nav>);
     }
 }
 
