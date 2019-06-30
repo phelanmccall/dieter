@@ -161,7 +161,7 @@ router.route("/getRecipesByIngredients")
   .get(function (req, res) {
     let searchURL ="https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
 
-    Axios({
+    axios({
       url: searchURL + req.params.ingredients,
       method: "get",
       headers: {
