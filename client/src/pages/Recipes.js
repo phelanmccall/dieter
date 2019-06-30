@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import AddRecipes from "./AddRecipes";
 import Navbar from "../components/Navbar";
+import SearchRecipes from "../components/SearchRecipes";
 
 class Recipes extends Component {
 
@@ -21,7 +22,7 @@ class Recipes extends Component {
         Axios.get("/myRecipes").then((response) => {
             console.log(response.data);
             this.setState({
-                recipes: response.data
+                recipes: response.data.length ? response.data : []
             })
         }).catch((err) => {
             console.log(err);
@@ -65,8 +66,13 @@ class Recipes extends Component {
                                 })
                             }
                             </div>
+
+                            <SearchRecipes />
                         </div>
+
+                    
                 }
+
             </div>
         );
     }

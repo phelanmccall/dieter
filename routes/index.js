@@ -2,7 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
 const bcrypt = require("bcrypt-nodejs");
-
+const axios = require("axios");
 require("../controller/passport");
 const passport = require("passport");
 router.use(function (req, res, next) {
@@ -97,29 +97,29 @@ router.route("/logout").get(function (req, res) {
 });
 
 router.route("/:username")
-  .delete(function(req, res){
-    if(req.user.username === req.params.username){
+  .delete(function (req, res) {
+    if (req.user.username === req.params.username) {
       db.Auths.deleteOne({
         username: req.user.username
-      }).then((doc)=>{
+      }).then((doc) => {
         console.log("Deleted: " + doc);
         res.send(doc);
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err);
         res.send(err);
       })
     }
-   
+
   })
 router.route("/meals/:date").get(function (req, res) {
   db.Plans.findOne({
     user: req.user.username,
     date: req.params.date
   }).then((plan) => {
-    if(plan){
+    if (plan) {
       res.send(plan);
-    }else{
-      res.send({breakfast:[],lunch:[], dinner:[]});
+    } else {
+      res.send({ breakfast: [], lunch: [], dinner: [] });
     }
   }).catch((err) => {
     console.log(err);
@@ -129,14 +129,14 @@ router.route("/meals/:date").get(function (req, res) {
 
 router.route("/add/plans")
   .post(function (req, res) {
-    let {date, breakfast, lunch, dinner} = req.body;
+    let { date, breakfast, lunch, dinner } = req.body;
     let user = req.user.username;
 
     db.Plans.findOneAndUpdate({
       date,
       user
     },
-      {breakfast,lunch,dinner},
+      { breakfast, lunch, dinner },
       {
         upsert: true,
         returnNewDocument: true
@@ -157,7 +157,22 @@ router.route("/myRecipes")
       res.send(err);
     })
   })
+router.route("/getRecipesByIngredients")
+  .get(function (req, res) {
+    let searchURL ="https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
 
+    Axios({
+      url: searchURL + req.params.ingredients,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response);
+      res.send(response.data);
+    });
+  })
 // router.route("/all/recipes")
 //   .get(function (req, res) {
 //     db.Recipes.find().then((data) => {

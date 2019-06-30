@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
+import RecipeModal from "../components/RecipeModal";
 import Axios from "axios";
 
 var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -192,43 +193,7 @@ class Planner extends Component {
                   </div>
                 </form>
 
-                <div className="modal fade" id="display" role="dialog">
-                    <div className="modal-dialog">
-
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h4 className="modal-title m-auto">{this.state.recipe.title}</h4>
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-
-                            </div>
-                            <div className="modal-body">
-                                <div>Ingredients:</div>
-                                <ul>
-                                    {
-                                        this.state.recipe.ingredients.map((val, key) => {
-                                            return <li key={key}>{val}</li>
-                                        })
-                                    }
-                                </ul>
-                            </div>
-                            <div className="modal-body">
-                                <div>Steps:</div>
-                                <ol>
-                                    {
-                                        this.state.recipe.steps.map((val, key) => {
-                                            return <li key={key}>{val}</li>
-                                        })
-                                    }
-                                </ol>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+                <RecipeModal recipe={this.state.recipe}/>
                 <div className="bg-info row">
                     <div className="btn mx-auto col-12">Breakfast:</div>
                     {
