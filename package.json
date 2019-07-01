@@ -2,11 +2,11 @@
   "name": "dieter",
   "version": "1.0.0",
   "description": "meal planner app",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "watch": "nodemon server.js",
+    "start": "node app.js",
+    "watch": "nodemon app.js",
     "build": " cd client && npm run build",
     "heroku-prebuild": "cd client && npm install",
     "heroku-postbuild": "npm run build"
@@ -39,6 +39,7 @@
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.8.11"
+    "sequelize": "^5.8.11",
+    "throng": "^4.0.0"
   }
 }

@@ -1,8 +1,4 @@
 
-var API_ID = process.env.EDAMAM_ID
-var API_KEY = process.env.EDAMAM_KEY;
-var URL = `https://api.edamam.com/search/?app_id=${API_ID}&app_key=${API_KEY}`;
-
 require("dotenv").config();
 require("./controller/passport");
 
