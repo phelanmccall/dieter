@@ -22,7 +22,6 @@ class User extends Component {
     }
 
     render() {
-        console.log(window.location.pathname);
         return (
             <div className="container-fluid" style={ {
                 "background-image": "linear-gradient(grey, white)"
