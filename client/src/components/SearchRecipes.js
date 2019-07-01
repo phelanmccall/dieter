@@ -23,7 +23,7 @@ class SearchRecipes extends Component {
         }).then((response)=>{
             console.log(response.data);
             this.setState({
-                recipes: ["hello"]
+                recipes: response.data.length ? response.data : ["No results."]
             })
         })
       
