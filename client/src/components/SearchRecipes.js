@@ -8,7 +8,12 @@ class SearchRecipes extends Component {
     //     browserHistory.push(e.target.name);
     // }
     state= {
-        recipes: []
+        recipes: [],
+        recipe: {
+            title: "",
+            steps: [],
+            ingredients: []
+        }
     }
     onSubmit = (e) => {
         e.preventDefault();
@@ -27,7 +32,29 @@ class SearchRecipes extends Component {
             })
         })
       
+
     }
+
+    viewRecipe(e){
+        console.log(e.target.id);
+        Axios.get("/getRecipeById",{
+            params:{
+                id: e.target.id
+            }
+        }).then((response)=>{
+            console.log(response.data);
+            this.setState({
+                recipe: response.data.title ? response.data : {
+                    title: "No recipe",
+                    steps: [],
+                    ingredients: []
+                }
+            })
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+    
 
     
 
@@ -45,10 +72,13 @@ class SearchRecipes extends Component {
                 <ul>
                 {
                     this.state.recipes.map((val, key)=>{
-                        return <li key={key}>
+                        return (<li key={key}>
+                        
                             <div>{val.title}</div>
                             <img src={val.image} alt={val.title}></img>
-                        </li>
+                            <button onClick={this.viewRecipe} id={val.id} />
+                        
+                        </li>);
                     })
                 }
                 </ul>

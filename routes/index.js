@@ -160,7 +160,6 @@ router.route("/myRecipes")
 router.route("/getRecipesByIngredients")
   .get(function (req, res) {
     let searchURL ="https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
-    console.log(req);
     axios({
       url: searchURL + req.query.ingredients,
       method: "get",
@@ -169,8 +168,34 @@ router.route("/getRecipesByIngredients")
         "X-RapidAPI-Key": process.env.RAPID_KEY
       }
     }).then((response) => {
-      console.log(response);
+      console.log(response.data);
       res.send(response.data);
+    });
+  })
+router.route("/getRecipeById")
+  .get(function(req, res){
+    let searchURL =`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.ingredients}/information`;
+    axios({
+      url: searchURL,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+      
+        let title = response.data.title;
+        let steps = response.data.instructions.split(". ");
+        let ingredients = response.data.extendedIngredients.map(function(val, ind){
+          return val.originalString;
+        })
+        let formatted = {
+          title,
+          steps,
+          ingredients
+        }
+      res.send(formatted);
     });
   })
 // router.route("/all/recipes")
