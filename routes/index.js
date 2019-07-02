@@ -170,6 +170,9 @@ router.route("/getRecipesByIngredients")
     }).then((response) => {
       console.log(response.data);
       res.send(response.data);
+    }).catch((err)=>{
+      console.log(err);
+      res.send(err);
     });
   })
 router.route("/getRecipeById")
@@ -198,7 +201,9 @@ router.route("/getRecipeById")
       res.send(formatted);
     }).catch((err)=>{
       console.log(err)
-      res.sendStatus(err);
+      res.send({
+        title: "Error"
+      });
     });
   })
 // router.route("/all/recipes")
