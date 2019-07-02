@@ -13,7 +13,7 @@ class SearchRecipes extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        let ingredients = e.target.name.value.split(/[\s\W,]+/).slice(0,5).join("%2");
+        let ingredients = e.target.name.value.split(/[\s\W,]+/).slice(0,5).join("%2B");
         console.log(ingredients);
 
         Axios.get("/getRecipesByIngredients",{
