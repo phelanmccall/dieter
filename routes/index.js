@@ -196,6 +196,9 @@ router.route("/getRecipeById")
           ingredients
         }
       res.send(formatted);
+    }).catch((err)=>{
+      console.log(err)
+      res.sendStatus(err);
     });
   })
 // router.route("/all/recipes")
