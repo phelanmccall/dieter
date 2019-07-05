@@ -105,9 +105,9 @@ class SearchRecipes extends Component {
                         this.state.recipes.map((val, key) => {
                             return (<div key={key} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display" className="col-4 m-1 justify-content-center">
 
-                                <img data-recipe-id={val.id} className="img-fluid" src={val.image} alt={val.title}></img>
+                                <img data-recipe-id={val.id} className="img-fluid" src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
-                                <h5 data-recipe-id={val.id} className="bg-secondary carousel-caption" style={{ "left": "5%", "right": "5%", "opacity": "0.5" }}>{val.title}</h5>
+                                <h5 data-recipe-id={val.id} className="bg-secondary carousel-caption" style={{ "left": "5%", "right": "5%", "background-color": "rgba(0,0,0,.5)" }}>{val.title}</h5>
 
                             </div>);
                         })
