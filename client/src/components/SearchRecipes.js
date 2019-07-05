@@ -30,7 +30,7 @@ class SearchRecipes extends Component {
             console.log(response.data);
             this.setState({
                 recipes: response.data.length ? response.data : [{title: "No results",
-                                                                                 image: "",
+                                                                                 image: "https://via.placeholder.com/250x300",
                                                                                  id:""}]
             })
         })
@@ -52,7 +52,7 @@ class SearchRecipes extends Component {
             console.log(response.data.results);
             this.setState({
                 recipes: response.data.results.length ? response.data.results : [{title: "No results",
-                                                                                 image: "",
+                                                                                 image: "https://via.placeholder.com/250x300",
                                                                                  id:""}]
             })
         })
