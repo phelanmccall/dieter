@@ -71,18 +71,17 @@ class SearchRecipes extends Component {
             </div>
             <RecipeModal recipe={this.state.recipe} />
             <div className="row">
-                <ul>
-                {
+               {
                     this.state.recipes.map((val, key)=>{
-                        return (<div onClick={this.viewRecipe} id={val.id} data-toggle="modal" data-target="#display" className="col-4 m-1 justify-content-center" key={key}>
+                        return (<div onClick={this.viewRecipe} id={val.id} data-toggle="modal" data-target="#display" className="col-4 m-1 justify-content-center">
                             
                             <img className="img-fluid" src={val.image} alt={val.title}></img>
+
                             <h5 className="carousel-caption" style="left:5%; right: 5%;">{val.title}</h5>
                         
                         </div>);
                     })
                 }
-                </ul>
             </div>
            </div>
         );
