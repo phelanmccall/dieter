@@ -67,7 +67,7 @@ class Recipes extends Component {
                             }
                             </div>
 
-                            <SearchRecipes />
+                            <SearchRecipes refresh={this.updateRecipes} />
                         </div>
 
                     

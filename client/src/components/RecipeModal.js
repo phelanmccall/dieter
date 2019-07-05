@@ -1,8 +1,16 @@
 import React, { Component } from "react";
+import Axios from "axios";
 
 class RecipeModal extends Component {
 
-
+    
+    saveRecipe(e){
+        e.preventDefault();
+        Axios.post("/add/recipe", this.props.recipe).then((response)=>{
+            console.log(response.data);
+            this.props.refresh();
+        })
+    }
 
     render() {
         return (
@@ -36,6 +44,13 @@ class RecipeModal extends Component {
                         </ol>
                     </div>
                     <div className="modal-footer">
+                        {
+                            window.location.pathname === "/recipes" ? 
+                            <button type="button" className="btn btn-success" onClick={this.saveRecipe} data-dismiss="modal">Save</button>
+                            :
+                            ""
+                            
+                        }
                         <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

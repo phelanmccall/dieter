@@ -63,13 +63,15 @@ class SearchRecipes extends Component {
         return (
            <div className="container-fluid">
                 <div className="row text-secondary">
-                <form  onSubmit={this.onSubmit}>
-                    <textarea name="name" />
+                <form className="m-auto btn col-12 col-lg-6" onSubmit={this.onSubmit}>
+                    <label>Find recipes by ingredient</label>
+                    <br/>
+                    <input type="search" className="btn border" name="name" />
                    
-                    <input type="submit" value="Search" />
+                    <input className="btn btn-info" type="submit" value="Search" />
                 </form>
             </div>
-            <RecipeModal recipe={this.state.recipe} />
+            <RecipeModal recipe={this.state.recipe} refresh={this.props.refresh} />
             <div className="row">
                {
                     this.state.recipes.map((val, key)=>{

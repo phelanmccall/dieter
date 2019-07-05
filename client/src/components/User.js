@@ -24,7 +24,7 @@ class User extends Component {
     render() {
         return (
             <div className="container-fluid" style={ {
-                "background-image": "linear-gradient(grey, white)"
+                "backgroundImage": "linear-gradient(grey, white)"
               }}>
                
           </div> );
