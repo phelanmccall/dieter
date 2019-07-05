@@ -29,7 +29,9 @@ class SearchRecipes extends Component {
         }).then((response) => {
             console.log(response.data);
             this.setState({
-                recipes: response.data.length ? response.data : [{title:"No results."}]
+                recipes: response.data.length ? response.data : [{title: "No results",
+                                                                                 image: "",
+                                                                                 id:""}]
             })
         })
 
@@ -49,7 +51,9 @@ class SearchRecipes extends Component {
         }).then((response) => {
             console.log(response.data.results);
             this.setState({
-                recipes: response.data.results.length ? response.data.results : [{title: "No results"}]
+                recipes: response.data.results.length ? response.data.results : [{title: "No results",
+                                                                                 image: "",
+                                                                                 id:""}]
             })
         })
 
