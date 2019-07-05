@@ -169,7 +169,16 @@ router.route("/getRecipesByIngredients")
       }
     }).then((response) => {
       console.log(response.data);
-      res.send(response.data);
+      let formatted = response.data.map((val, ind, arr)=>{
+        return {
+          title: val.title,
+          ingredients: val.extendedIngredients.map((val, ind)=>{
+            return val.originalString
+          }),
+          steps: val.instructions.split(".")
+        };
+      })
+      res.send(formatted);
     }).catch((err)=>{
       console.log(err);
       res.send(err);
