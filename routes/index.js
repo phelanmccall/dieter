@@ -159,7 +159,7 @@ router.route("/myRecipes")
   })
 router.route("/getRecipesByIngredients")
   .get(function (req, res) {
-    let searchURL ="https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
     axios({
       url: searchURL + req.query.ingredients,
       method: "get",
@@ -169,16 +169,38 @@ router.route("/getRecipesByIngredients")
       }
     }).then((response) => {
       console.log(response.data);
-      
+
       res.send(response.data);
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err);
       res.send(err);
     });
   })
+
+router.route("/getRecipesByPhrase")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?query=";
+    axios({
+      url: searchURL + req.query.phrase,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
+
+
 router.route("/getRecipeById")
-  .get(function(req, res){
-    let searchURL =`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.id}/information`;
+  .get(function (req, res) {
+    let searchURL = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.id}/information`;
     axios({
       url: searchURL,
       method: "get",
@@ -188,19 +210,19 @@ router.route("/getRecipeById")
       }
     }).then((response) => {
       console.log(response.data);
-      
-        let title = response.data.title;
-        let steps = response.data.instructions.split(". ");
-        let ingredients = response.data.extendedIngredients.map(function(val, ind){
-          return val.originalString;
-        })
-        let formatted = {
-          title,
-          steps,
-          ingredients
-        }
+
+      let title = response.data.title;
+      let steps = response.data.instructions.split(". ");
+      let ingredients = response.data.extendedIngredients.map(function (val, ind) {
+        return val.originalString;
+      })
+      let formatted = {
+        title,
+        steps,
+        ingredients
+      }
       res.send(formatted);
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err.Error)
       res.send({
         title: "Error"
