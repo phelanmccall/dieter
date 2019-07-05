@@ -50,11 +50,7 @@ class SearchRecipes extends Component {
         }).then((response)=>{
             console.log(response.data);
             this.setState({
-                recipe: response.data.title ? response.data : {
-                    title: "No recipe",
-                    steps: [],
-                    ingredients: []
-                }
+                recipe: response.data
             })
         }).catch((err)=>{
             console.log(err);
