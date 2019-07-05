@@ -77,7 +77,7 @@ class SearchRecipes extends Component {
                             
                             <img className="img-fluid" src={val.image} alt={val.title}></img>
 
-                            <h5 className="carousel-caption" style="left:5%; right: 5%;">{val.title}</h5>
+                            <h5 className="carousel-caption" style={{"left":"5%","right":"5%"}}>{val.title}</h5>
                         
                         </div>);
                     })
