@@ -40,7 +40,7 @@ class SearchRecipes extends Component {
         e.preventDefault();
 
         let phrase = e.target.name.value.split(/[\s\W,]+/).slice(0, 5).join("%2B");
-        console.log(ingredients);
+        console.log(phrase);
 
         Axios.get("/getRecipesByPhrase", {
             params: {
