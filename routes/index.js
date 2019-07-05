@@ -201,7 +201,7 @@ router.route("/getRecipeById")
         }
       res.send(formatted);
     }).catch((err)=>{
-      console.log(err)
+      console.log(err.Error)
       res.send({
         title: "Error"
       });
