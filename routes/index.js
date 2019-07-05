@@ -178,7 +178,7 @@ router.route("/getRecipesByIngredients")
   })
 router.route("/getRecipeById")
   .get(function(req, res){
-    let searchURL =`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.ingredients}/information`;
+    let searchURL =`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.id}/information`;
     axios({
       url: searchURL,
       method: "get",
