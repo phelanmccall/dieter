@@ -41,7 +41,7 @@ class SearchRecipes extends Component {
 
     }
 
-    viewRecipe(e){
+    viewRecipe = (e) => {
         console.log(e.target.dataset.recipeId);
         Axios.get("/getRecipeById",{
             params:{

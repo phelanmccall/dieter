@@ -4,7 +4,7 @@ import Axios from "axios";
 class RecipeModal extends Component {
 
     
-    saveRecipe(e){
+    saveRecipe = (e) => {
         e.preventDefault();
         Axios.post("/add/recipe", this.props.recipe).then((response)=>{
             console.log(response.data);
