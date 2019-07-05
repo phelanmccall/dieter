@@ -9,7 +9,11 @@ class SearchRecipes extends Component {
     //     browserHistory.push(e.target.name);
     // }
     state= {
-        recipes: [],
+        recipes: [{
+            title:"12",
+            steps: ["1","2"],
+            ingredients: ["1","2"]
+        }],
         recipe: {
             title: "",
             steps: [],
@@ -71,15 +75,19 @@ class SearchRecipes extends Component {
                     <input className="btn btn-info" type="submit" value="Search" />
                 </form>
             </div>
-            <RecipeModal recipe={this.state.recipe} refresh={this.props.refresh} />
             <div className="row">
+            <RecipeModal recipe={this.state.recipe} refresh={this.props.refresh} />
+
+            </div>
+            <div className="row">
+           
                {
                     this.state.recipes.map((val, key)=>{
                         return (<div onClick={this.viewRecipe} id={val.id} data-toggle="modal" data-target="#display" className="col-4 m-1 justify-content-center">
                             
                             <img className="img-fluid" src={val.image} alt={val.title}></img>
 
-                            <h5 className="bg-secondary carousel-caption" style={{"left":"5%","right":"5%"}}>{val.title}</h5>
+                            <h5 className="bg-secondary carousel-caption" style={{"left":"5%","right":"5%", "opacity":"0.5"}}>{val.title}</h5>
                         
                         </div>);
                     })
