@@ -9,12 +9,7 @@ class SearchRecipes extends Component {
     //     browserHistory.push(e.target.name);
     // }
     state= {
-        recipes: [{
-            id: 12,
-            title:"12",
-            steps: ["1","2"],
-            ingredients: ["1","2"]
-        }],
+        recipes: [],
         recipe: {
             title: "",
             steps: [],
