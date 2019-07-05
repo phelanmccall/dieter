@@ -212,7 +212,7 @@ router.route("/getRecipeById")
       console.log(response.data);
 
       let title = response.data.title;
-      let steps = response.data.instructions.split(". ");
+      let steps = response.data.instructions.split(".");
       let ingredients = response.data.extendedIngredients.map(function (val, ind) {
         return val.originalString;
       })
