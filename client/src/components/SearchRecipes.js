@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import RecipeModal from "../components/RecipeModal";
 
 class SearchRecipes extends Component {
 
@@ -68,17 +69,18 @@ class SearchRecipes extends Component {
                     <input type="submit" value="Search" />
                 </form>
             </div>
+            <RecipeModal recipe={this.state.recipe} />
             <div className="row">
                 <ul>
                 {
                     this.state.recipes.map((val, key)=>{
-                        return (<li key={key}>
+                        return (<div className="col-4 m-1 justify-content-center" key={key}>
                         
-                            <div>{val.title}</div>
-                            <img src={val.image} alt={val.title}></img>
-                            <button onClick={this.viewRecipe} id={val.id} />
+                            <h5>{val.title}</h5>
+                            <img className="img-fluid" src={val.image} alt={val.title}></img>
+                            <button className="btn btn-outline-dark float-left" onClick={this.viewRecipe} id={val.id} value="View" data-toggle="modal" data-target="#display"/>
                         
-                        </li>);
+                        </div>);
                     })
                 }
                 </ul>
