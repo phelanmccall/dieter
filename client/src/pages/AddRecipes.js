@@ -162,13 +162,13 @@ class AddRecipes extends Component {
 
                 <div className="row">
                     {
-                        this.state.ingredients.map((val, key) => {
+                        this.state.ingredients ? this.state.ingredients.map((val, key) => {
                             return <div className="col-12 justify-content-center" key={key}>
                                 <button className="btn btn-outline-dark float-left" name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
                                 <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteItem}>Delete</button>
                             </div>
-                        })
+                        }) : ""
                     }
 
 
@@ -184,13 +184,13 @@ class AddRecipes extends Component {
 
                 <div className="row">
                     {
-                        this.state.steps.map((val, key) => {
+                        this.state.steps ? this.state.steps.map((val, key) => {
                             return <div className="col-12 justify-content-center" key={key}>
                                 <button className="btn btn-outline-dark float-left" name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
                                 <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteStep}>Delete</button>
                             </div>
-                        })
+                        }) : ""
                     }
                 </div>
 
