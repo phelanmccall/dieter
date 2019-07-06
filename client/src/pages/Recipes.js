@@ -8,7 +8,7 @@ class Recipes extends Component {
 
     state = {
         recipes: [],
-        selected: {},
+        selected: null,
         add: false
     }
 
@@ -53,7 +53,7 @@ class Recipes extends Component {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({
-                                            selected: {}
+                                            selected: null
                                         }, () => {
                                             this.toggle(e);
                                         })
