@@ -8,7 +8,11 @@ class Recipes extends Component {
 
     state = {
         recipes: [],
-        selected: null,
+        selected: {
+            title: "",
+            ingredients: [],
+            steps: []
+        },
         add: false
     }
 
@@ -53,7 +57,11 @@ class Recipes extends Component {
                                         e.preventDefault();
                                         console.log(e.target);
                                         this.setState({
-                                            selected: null
+                                            selected: {
+                                                title: "",
+                                                ingredients: [],
+                                                steps: []
+                                            }
                                         }, () => {
                                             this.toggle(e);
                                         })
