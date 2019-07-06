@@ -8,12 +8,14 @@ class Recipes extends Component {
 
     state = {
         recipes: [],
+        selected: {},
         add: false
     }
 
     toggle = (e) => {
         e.preventDefault();
         this.setState((prevState) => ({
+            selected: {},
             add: !prevState.add
         }))
     }
@@ -47,9 +49,15 @@ class Recipes extends Component {
                         :
                         <div className="container-fluid">
                             <div className="row">
-                            <button className="btn btn-success col-6 my-3 mx-auto" onClick={
-                                this.toggle
-                            }>ADD</button>
+                            <button className="btn btn-success col-6 my-3 mx-auto" onClick={(e) => {
+                                        e.preventDefault();
+                                        console.log(e.target);
+                                        this.setState({
+                                            selected: {}
+                                        }, () => {
+                                            this.toggle(e);
+                                        })
+                                    }}>ADD</button>
                             </div>
                             <div className="row justify-content-center">
                             {
