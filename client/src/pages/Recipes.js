@@ -51,7 +51,6 @@ class Recipes extends Component {
                             <button className="btn btn-success col-6 my-3 mx-auto" onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
-                                        this.toggle(e);
                                         this.setState({
                                             selected: {}
                                         }, () => {
