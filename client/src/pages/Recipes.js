@@ -8,11 +8,6 @@ class Recipes extends Component {
 
     state = {
         recipes: [],
-        selected: {
-            title: "",
-            ingredients: [],
-            steps: []
-        },
         add: false
     }
 
@@ -41,7 +36,7 @@ class Recipes extends Component {
     }
 
     render() {
-        console.log(this.state.add);
+        console.log(this.state.selected);
 
         return (
             <div className="container-fluid">
@@ -56,12 +51,9 @@ class Recipes extends Component {
                             <button className="btn btn-success col-6 my-3 mx-auto" onClick={(e) => {
                                         e.preventDefault();
                                         console.log(e.target);
+                                        this.toggle(e);
                                         this.setState({
-                                            selected: {
-                                                title: "",
-                                                ingredients: [],
-                                                steps: []
-                                            }
+                                            selected: {}
                                         }, () => {
                                             this.toggle(e);
                                         })
@@ -72,7 +64,7 @@ class Recipes extends Component {
                                 this.state.recipes.map((val, key) => {
                                     return <button className="btn btn-outline-dark btn-info my-1 mx-2 " onClick={(e) => {
                                         e.preventDefault();
-                                        console.log(e.target);
+                                        console.log(this.state.recipes[e.target.id]);
                                         this.setState({
                                             selected: this.state.recipes[e.target.id]
                                         }, () => {

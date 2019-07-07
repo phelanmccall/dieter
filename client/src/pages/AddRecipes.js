@@ -4,14 +4,29 @@ import axios from "axios";
 class AddRecipes extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            id: this.props.recipe ? this.props.recipe._id : null,
-            title: this.props.recipe ? this.props.recipe.title : "",
-            steps: this.props.recipe ? this.props.recipe.steps : [],
-            ingredients: this.props.recipe ? this.props.recipe.ingredients : [],
-            method: this.props.recipe ? "put" : "post",
-            titleErr: null
+        console.log(this.props.recipe);
+
+        if(this.props.recipe && this.props.recipe._id !== undefined){
+            this.state = {
+                id: this.props.recipe._id,
+                title: this.props.recipe.title,
+                steps: this.props.recipe.steps,
+                ingredients: this.props.recipe.ingredients,
+                method: "put",
+                titleErr: null
+            }
+        } else {
+         
+            this.state = {
+                id: null,
+                title: "",
+                steps: [],
+                ingredients: [],
+                method: this.props.recipe ? "put" : "post",
+                titleErr: null
+            }
         }
+      
     }
 
 
@@ -53,8 +68,9 @@ class AddRecipes extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let arr = [...this.state[e.target.id], e.target.name.value];
         console.log(e.target.id)
+        console.log(this.state)
+        let arr = [...this.state[e.target.id], e.target.name.value];
         this.setState({
             [e.target.id]: arr
         }, function () {
