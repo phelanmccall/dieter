@@ -22,7 +22,7 @@ class AddRecipes extends Component {
                 title: "",
                 steps: [],
                 ingredients: [],
-                method: this.props.recipe ? "put" : "post",
+                method: "post",
                 titleErr: null
             }
         }
