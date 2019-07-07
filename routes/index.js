@@ -212,7 +212,7 @@ router.route("/getRecipeById")
       console.log(response.data);
 
       let title = response.data.title;
-      let steps = response.data.instructions.replace(/(\.+|\!|\?)(\"*|\'*|\)*|}*|]*)(\s|\n|\r|\r\n)/gm, "$1|").split("|");
+      let steps = response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val)=>val.trim());
       console.log(steps);
       let ingredients = response.data.extendedIngredients.map(function (val, ind) {
         return val.originalString;
