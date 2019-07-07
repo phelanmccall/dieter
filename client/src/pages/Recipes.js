@@ -14,7 +14,6 @@ class Recipes extends Component {
     toggle = (e) => {
         e.preventDefault();
         this.setState((prevState) => ({
-            selected: {},
             add: !prevState.add
         }))
     }
