@@ -48,7 +48,7 @@ class CalendarModal extends Component {
     }
 
     render() {
-
+        console.log(months);
         return (
             <div>
                 <button type="button" data-toggle="modal" data-target="#cal">Calender</button>
