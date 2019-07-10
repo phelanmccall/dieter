@@ -49,10 +49,7 @@ class CalendarModal extends Component {
 
     render() {        
         
-        console.log(this.state.date.getUTCMonth);
-
-        console.log(months);
-        
+       
         return (
             <div>
                 <button type="button" data-toggle="modal" data-target="#cal">Calender</button>
@@ -62,7 +59,7 @@ class CalendarModal extends Component {
                             <div className="modal-header">
 
                                 <button onClick={this.changeDate} id="<" className="mr-0 btn btn-secondary  " type="button" >{"<"}</button>
-                                <div id="month" className="d-inline d-block btn" >{months[this.state.date.getUTCMonth]}</div>
+                                <div id="month" className="d-inline d-block btn" >{months[this.state.date.getUTCMonth()]}</div>
                                 <button onClick={this.changeDate} id=">" className="ml-0 btn btn-secondary  " type="button" >{">"}</button>
 
                             </div>
