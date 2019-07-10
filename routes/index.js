@@ -110,6 +110,8 @@ router.route("/:username")
   })
 router.route("/meals/:date")
   .get(function (req, res) {
+    console.log("MEALS/DATE");
+  
     db.Plans.findOne({
       user: req.user.username,
       date: req.params.date
@@ -130,9 +132,10 @@ router.route("/meals/:year/:month")
     let {year, month} = req.params;
     let dates = [];
     for(let i = 1; i < 32; i++){
-      dates.push(year + "-" + month < 10 ? "0"+month : month + "-" + i < 10 ? "0"+i : i);
+      dates.push(year + "-" + month + "-" + i);
     }
-
+    console.log(dates);
+  
     db.Plans.find({
       user: req.user.username,
       date: dates
