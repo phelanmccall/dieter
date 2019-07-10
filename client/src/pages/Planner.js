@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
 import RecipeModal from "../components/RecipeModal";
+import CalendarModal from "../components/CalendarModal";
 import Axios from "axios";
 
 var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -162,6 +163,7 @@ class Planner extends Component {
                 <div className="row justify-content-center">
                     <button onClick={this.changeDate} id="<" className="mr-0 btn btn-secondary  " type="button" >{"<"}</button>
                     <input id="date" className="d-inline d-block btn" type="date" onChange={this.handleDate} value={this.format(date)}></input>
+                    <CalendarModal date={date} />
                     <button onClick={this.changeDate} id=">" className="ml-0 btn btn-secondary  " type="button" >{">"}</button>
                     {
                         date ? <div className="col-12 m-auto btn">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>

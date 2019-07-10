@@ -111,21 +111,46 @@ router.route("/:username")
     }
 
   })
-router.route("/meals/:date").get(function (req, res) {
-  db.Plans.findOne({
-    user: req.user.username,
-    date: req.params.date
-  }).then((plan) => {
-    if (plan) {
-      res.send(plan);
-    } else {
-      res.send({ breakfast: [], lunch: [], dinner: [] });
-    }
-  }).catch((err) => {
-    console.log(err);
-    res.status(404).send();
+router.route("/meals/:date")
+  .get(function (req, res) {
+    db.Plans.findOne({
+      user: req.user.username,
+      date: req.params.date
+    }).then((plan) => {
+      if (plan) {
+        res.send(plan);
+      } else {
+        res.send({ breakfast: [], lunch: [], dinner: [] });
+      }
+    }).catch((err) => {
+      console.log(err);
+      res.status(404).send();
+    })
   })
-})
+
+router.route("/meals/:year/:month")
+  .get(function(req, res){
+    let {year, month} = req.params;
+    let dates = [];
+    for(let i = 1; i < 32; i++){
+      dates.push(year + "-" + month < 10 ? "0"+month : month + "-" + i < 10 ? "0"+i : i);
+    }
+
+    db.Plans.find({
+      user: req.user.username,
+      date: dates
+    }).then((plans) => {
+      if (plans) {
+        console.log(plans);
+        res.send(plans);
+      } else {
+        res.send([]);
+      }
+    }).catch((err) => {
+      console.log(err);
+      res.status(404).send();
+    })
+  })
 
 router.route("/add/plans")
   .post(function (req, res) {
@@ -212,7 +237,7 @@ router.route("/getRecipeById")
       console.log(response.data);
 
       let title = response.data.title;
-      let steps = response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val)=>val.trim());
+      let steps = response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim());
       console.log(steps);
       let ingredients = response.data.extendedIngredients.map(function (val, ind) {
         return val.originalString;
