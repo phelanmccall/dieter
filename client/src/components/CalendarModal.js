@@ -48,7 +48,7 @@ class CalendarModal extends Component {
     }
 
     render() {
-        console.log(months);
+        console.log(months[this.state.date.getUTCMonth]);
         return (
             <div>
                 <button type="button" data-toggle="modal" data-target="#cal">Calender</button>
