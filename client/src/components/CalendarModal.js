@@ -31,9 +31,9 @@ class CalendarModal extends Component {
         newDate.setDate(1);
         
         let calHTML;
-         for(let i= 0; i < 5; i++){
+         for(let i= 0; i < 5 ; i++){
             calHTML += <tr>;
-            for(let k = 0; k < 7; k++){
+            for(let k = 0; k < 7 ; k++){
                 calHTML += <td>;
                 let matchingDays = this.state.days.filter((val) => {
                     return val.date === this.format(newDate)
@@ -47,6 +47,7 @@ class CalendarModal extends Component {
             }
             calHTML += </tr>;
          }
+        console.log(calHTML);
         return (
            calHTML
                 
