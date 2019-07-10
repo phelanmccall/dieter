@@ -132,7 +132,7 @@ router.route("/meals/:year/:month")
     let {year, month} = req.params;
     let dates = [];
     for(let i = 1; i < 32; i++){
-      dates.push(year + "-" + month + "-" + i);
+      dates.push(year + "-" + month + "-" + i < 10 ? "0"+ i : i);
     }
     console.log(dates);
   
