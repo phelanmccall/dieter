@@ -12,6 +12,7 @@ class CalendarModal extends Component {
             days: []
         }
     }
+    
     getMonthPlans = () =>{
         let date = this.format(this.state.date);
         let year = date.split("-")[0];
@@ -24,6 +25,35 @@ class CalendarModal extends Component {
         }).catch((err)=>{
             console.log(err);
         });
+    }
+    showCal = () =>{
+        let newDate = this.state.date;
+        newDate.setDate(1);
+        
+        let calHTML;
+         for(let i= 0; i < 5; i++){
+            calHTML += <tr>;
+            for(let k = 0; k < 7; k++){
+                calHTML += <td>
+                    let matchingDays = this.state.days.filter((val) => {
+                        return val.date === this.format(newDate)
+                    })
+                    if(matchingDays.length){
+                        calHTML += val._id
+                    }
+                calHTML += </tr>;
+                newDate.setDate(newDate.getDate() + 1);
+            }
+            calHTML += </tr>;
+         }
+        return (
+           calHTML
+                
+        );
+    }
+    
+    componentDidMount() {
+        this.getMonthPlans();
     }
 
     changeDate = (e) => {
@@ -66,12 +96,14 @@ class CalendarModal extends Component {
                             <div className="modal-body">
                                 <table>
                                     <thead>
-
+                                        <tr>
+                                            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-
-                                        </tr>
+                                                {
+                                            this.showCal();
+                                            }
                                     </tbody>
                                 </table>
                             </div>
