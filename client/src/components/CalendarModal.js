@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ajax from "ajax";
+import axios from "axios";
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -13,7 +13,16 @@ class CalendarModal extends Component {
         }
     }
     getMonthPlans = () =>{
-
+        let year = this.state.date.split("-")[0];
+        let month = this.state.date.split("-"[1];
+        axios.get("/meals/"+year+"/"+month).then((response)=>{
+            console.log(response.data);
+            this.setState({
+                days: response.data
+            });
+        }).catch((err)=>{
+            console.log(err);
+        });
     }
 
     changeDate = (e) => {
