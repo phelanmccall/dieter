@@ -34,13 +34,14 @@ class CalendarModal extends Component {
          for(let i= 0; i < 5; i++){
             calHTML += <tr>;
             for(let k = 0; k < 7; k++){
-                calHTML += <td>
-                    let matchingDays = this.state.days.filter((val) => {
-                        return val.date === this.format(newDate)
-                    })
-                    if(matchingDays.length){
-                        calHTML += val._id
-                    }
+                calHTML += <td>;
+                let matchingDays = this.state.days.filter((val) => {
+                    return val.date === this.format(newDate)
+                });
+                
+                if(matchingDays.length){
+                   calHTML += val._id
+                }
                 calHTML += </tr>;
                 newDate.setDate(newDate.getDate() + 1);
             }
