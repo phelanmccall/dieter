@@ -13,8 +13,9 @@ class CalendarModal extends Component {
         }
     }
     getMonthPlans = () =>{
-        let year = this.state.date.split("-")[0];
-        let month = this.state.date.split("-")[1];
+        let date = this.format(this.state.date);
+        let year = date.split("-")[0];
+        let month = date.split("-")[1];
         axios.get("/meals/"+year+"/"+month).then((response)=>{
             console.log(response.data);
             this.setState({
