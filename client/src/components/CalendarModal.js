@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ajax from "ajax";
+
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 class CalendarModal extends Component {
@@ -6,7 +8,8 @@ class CalendarModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: props.date
+            date: props.date,
+            days: []
         }
     }
     getMonthPlans = () =>{

@@ -8,10 +8,7 @@ const passport = require("passport");
 router.use(function (req, res, next) {
   var { path } = req;
   var base = "/" + path.split("/")[1];
-  var date;
-  if (base === "/meals") {
-    date = path.split("/")[2];
-  }
+  
 
   switch (base) {
     case "/":
@@ -236,8 +233,11 @@ router.route("/getRecipeById")
     }).then((response) => {
       console.log(response.data);
 
-      let title = response.data.title;
-      let steps = response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim());
+      let title = response.data.title ? response.data.title : "No title";
+      let steps = response.data.instructions ? 
+        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim())
+        : [];
+
       console.log(steps);
       let ingredients = response.data.extendedIngredients.map(function (val, ind) {
         return val.originalString;
@@ -249,9 +249,11 @@ router.route("/getRecipeById")
       }
       res.send(formatted);
     }).catch((err) => {
-      console.log(err.Error)
+      console.log(err)
       res.send({
-        title: "Error"
+        title: "Error",
+        steps: ["Error"],
+        ingredients: ["Error"]
       });
     });
   })
