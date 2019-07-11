@@ -76,7 +76,7 @@ class Planner extends Component {
     setDate = (date) => {
         this.setState({
             date: date
-        }, this.getToday());
+        }, this.getToday);
     }
 
     getUserInfo = () => {
