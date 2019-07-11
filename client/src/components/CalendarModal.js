@@ -29,28 +29,38 @@ class CalendarModal extends Component {
     showCal = () =>{
         let newDate = new Date(this.state.date.getTime());
         newDate.setUTCDate(1);
-        
+        let curMonth = newDate.getUTCMonth();
         let calHTML = [];
          for(let i= 0; i < 5 ; i++){
             let children = [];
             for(let k = 0; k < 7 ; k++){
                 let currentDay = newDate.getUTCDay();
                 let distance = k - currentDay;
+                console.log("Current Day: " + currentDay);
+                console.log("K: " + k);
+                console.log("Distance: " +  distance);
+                console.log("First date: " + newDate.getUTCDate());
                 if(distance !== 0){
-                  newDate.setUTCDate(newDate.getUTCDate + distance);
+                  newDate.setUTCDate(newDate.getUTCDate() + distance);
                 }
+                console.log("2nd date: " + newDate.getUTCDate());
+
                 let matchingDays = this.state.days.filter((val) => {
                     return val.date === this.format(newDate)
                 });
-                
+                console.log(matchingDays);
+                let bg = curMonth !== newDate.getUTCMonth() ? "bg-warning" : "bg-info";
+                bg += " border"
                 if(matchingDays.length){
-                   children.push(<td>{newDate.getUTCDate() + matchingDays[0]._id}</td>);
+                   children.push(<td className={bg}>{newDate.getUTCDate() + " " + matchingDays[0]._id}</td>);
                 }else{
-                   children.push(<td>{newDate.getUTCDate()}</td>);
+                   children.push(<td className={bg}>{newDate.getUTCDate()}</td>);
                 }
+
                 newDate.setUTCDate(newDate.getUTCDate() + 1);
 
             }
+            console.log("Children"+ children);
             calHTML.push(<tr>{children}</tr>);
          }
         console.log(calHTML);
@@ -103,10 +113,10 @@ class CalendarModal extends Component {
 
                             </div>
                             <div className="modal-body">
-                                <table>
+                                <table className="m-auto">
                                     <thead>
                                         <tr>
-                                            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+                                            <th className="col-1">Su</th><th className="col-1">Mo</th><th className="col-1">Tu</th><th className="col-1">We</th><th className="col-1">Th</th><th className="col-1">Fr</th><th className="col-1">Sa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
