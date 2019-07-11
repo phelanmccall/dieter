@@ -277,34 +277,42 @@ router.route("/getRecipeById")
 router.route("/add/recipe")
   .post(function (req, res) {
     let { title, steps, ingredients } = req.body;
-    let user = req.user.username;
+    if(!steps.length){
+      res.send("Error: recipe needs atleast one step.")
 
-    let conditions = {
-      title,
-      user
-    };
+    }else if(!ingredients.length){
+      res.send("Error: recipe needs atleast one ingredient.")
 
-    let update = {
-      title,
-      steps,
-      ingredients,
-      user
-    }
+    }else{
+      let user = req.user.username;
 
-    db.Recipes.findOne(conditions).then((data) => {
-      if (data) {
-        res.send("Error: recipe title already exists.")
-      } else {
-
-        db.Recipes.create(update).then((rx) => {
-          res.send(rx);
-        }).catch((err) => {
-          res.send(err);
-        })
+      let conditions = {
+        title,
+        user
+      };
+  
+      let update = {
+        title,
+        steps,
+        ingredients,
+        user
       }
-    }).catch((err) => {
-      res.send(err);
-    })
+  
+      db.Recipes.findOne(conditions).then((data) => {
+        if (data) {
+          res.send("Error: recipe title already exists.")
+        } else {
+  
+          db.Recipes.create(update).then((rx) => {
+            res.send(rx);
+          }).catch((err) => {
+            res.send(err);
+          })
+        }
+      }).catch((err) => {
+        res.send(err);
+      })
+    }
   })
   .put(function (req, res) {
     let { id, title, steps, ingredients } = req.body;
@@ -333,6 +341,7 @@ router.route("/delete/recipe/:id")
       _id: req.params.id,
       user: req.user.username
     }).then((rx) => {
+
       res.send(200);
     }).catch((err) => {
       res.send(err);
