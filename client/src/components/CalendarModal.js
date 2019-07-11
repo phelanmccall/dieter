@@ -27,8 +27,8 @@ class CalendarModal extends Component {
         });
     }
     showCal = () =>{
-        let newDate = this.state.date;
-        newDate.setDate(1);
+        let newDate = new Date(this.state.date.getTime());
+        newDate.setUTCDate(1);
         
         let calHTML = [];
          for(let i= 0; i < 5 ; i++){
@@ -75,6 +75,7 @@ class CalendarModal extends Component {
         } else {
             newDate.setUTCMonth(newDate.getUTCMonth() + 1);
         }
+        console.log(newDate);
         this.setState({
             date: newDate
         }, this.getMonthPlans());
