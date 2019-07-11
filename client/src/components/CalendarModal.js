@@ -55,9 +55,9 @@ class CalendarModal extends Component {
                    children.push(
                         <td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>
                             {newDate.getUTCDate()}
-                            {bf > 0 ? <small className="bg-info">Br: {bf}</small> : ""}
-                            {ln > 0 ? <small className="bg-success">Lu: {ln}</small> : ""}
-                            {dn > 0 ? <small className="bg-warning">Di: {dn}</small> : ""}
+                            {bf > 0 ? <small className="bg-info rounded">Br</small> : ""}
+                            {ln > 0 ? <small className="bg-success rounded">Lu</small> : ""}
+                            {dn > 0 ? <small className="bg-warning rounded">Di</small> : ""}
                         </td>);
                 }else{
                    children.push(<td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>{newDate.getUTCDate()}</td>);
