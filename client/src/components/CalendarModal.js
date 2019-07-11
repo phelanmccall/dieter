@@ -49,7 +49,7 @@ class CalendarModal extends Component {
                     return val.date === this.format(newDate)
                 });
                 console.log(matchingDays);
-                let bg = curMonth !== newDate.getUTCMonth() ? "bg-warning" : "bg-info";
+                let bg = curMonth !== newDate.getUTCMonth() ? "bg-danger" : "bg-primary";
                 bg += " border"
                 if(matchingDays.length){
                     let bf = matchingDays[0].breakfast.length > 0; 
