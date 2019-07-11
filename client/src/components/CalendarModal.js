@@ -52,7 +52,11 @@ class CalendarModal extends Component {
                 let bg = curMonth !== newDate.getUTCMonth() ? "bg-warning" : "bg-info";
                 bg += " border"
                 if(matchingDays.length){
-                   children.push(<td className={bg}>{newDate.getUTCDate() + " " + matchingDays[0]._id}</td>);
+                    let bf = matchingDays[0].breakfast.length > 0; 
+                    let ln = matchingDays[0].lunch.length > 0; 
+                    let dn = matchingDays[0].dinner.length > 0; 
+
+                   children.push(<td className={bg}>{newDate.getUTCDate()}{bf ? <div className="bg-info">O</div> : ""}{ln ? <div className="bg-success">O</div> : ""}{dn ? <div className="bg-warning">O</div> : ""}</td>);
                 }else{
                    children.push(<td className={bg}>{newDate.getUTCDate()}</td>);
                 }
@@ -112,11 +116,11 @@ class CalendarModal extends Component {
                                 <button onClick={this.changeDate} id=">" className="ml-0 btn btn-secondary  " type="button" >{">"}</button>
 
                             </div>
-                            <div className="modal-body">
-                                <table className="m-auto">
+                            <div className="modal-body table-responsive">
+                                <table className="m-auto table">
                                     <thead>
                                         <tr>
-                                            <th className="col-1">Su</th><th className="col-1">Mo</th><th className="col-1">Tu</th><th className="col-1">We</th><th className="col-1">Th</th><th className="col-1">Fr</th><th className="col-1">Sa</th>
+                                            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
