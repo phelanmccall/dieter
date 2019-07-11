@@ -13,6 +13,7 @@ class RecipeModal extends Component {
     }
 
     render() {
+        console.log(this.props.recipe);
         return (
             <div className="modal fade" id="display" role="dialog">
             <div className="modal-dialog">
