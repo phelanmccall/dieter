@@ -48,16 +48,16 @@ class CalendarModal extends Component {
                 bg += " border"
                 if(matchingDays.length){
                     console.log(matchingDays);
-                    let bf = matchingDays[0].breakfast.length > 0; 
-                    let ln = matchingDays[0].lunch.length > 0; 
-                    let dn = matchingDays[0].dinner.length > 0; 
+                    let bf = matchingDays[0].breakfast.length; 
+                    let ln = matchingDays[0].lunch.length; 
+                    let dn = matchingDays[0].dinner.length; 
 
                    children.push(
                         <td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>
                             {newDate.getUTCDate()}
-                            {bf ? <small className="bg-info">O</small> : ""}
-                            {ln ? <small className="bg-success">O</small> : ""}
-                            {dn ? <small className="bg-warning">O</small> : ""}
+                            {bf > 0 ? <small className="bg-info">Br: {bf}</small> : ""}
+                            {ln > 0 ? <small className="bg-success">Lu: {ln}</small> : ""}
+                            {dn > 0 ? <small className="bg-warning">Di: {dn}</small> : ""}
                         </td>);
                 }else{
                    children.push(<td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>{newDate.getUTCDate()}</td>);
