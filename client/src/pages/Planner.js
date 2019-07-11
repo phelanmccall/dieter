@@ -162,8 +162,9 @@ class Planner extends Component {
 
     render() {
         var { date } = this.state;
-        console.log(this.state)
+        console.log(this.state.foods)
         console.log(this.format(date));
+        
         return (
             <div className="container-fluid">
                 <Navbar />
