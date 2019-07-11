@@ -30,22 +30,23 @@ class CalendarModal extends Component {
         let newDate = this.state.date;
         newDate.setDate(1);
         
-        let calHTML;
+        let calHTML = [];
          for(let i= 0; i < 5 ; i++){
-            calHTML += <tr>;
+            let children = [];
             for(let k = 0; k < 7 ; k++){
-                calHTML += <td>;
+                
                 let matchingDays = this.state.days.filter((val) => {
                     return val.date === this.format(newDate)
                 });
                 
                 if(matchingDays.length){
-                   calHTML += val._id
+                   children.push(<td>{matchingDays[0]._id}</td>);
+                }else{
+                   children.push(<td></td>);
                 }
-                calHTML += </tr>;
                 newDate.setDate(newDate.getDate() + 1);
             }
-            calHTML += </tr>;
+            calHTML.push(<tr>{children}</tr>);
          }
         console.log(calHTML);
         return (
