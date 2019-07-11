@@ -8,18 +8,20 @@ var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var meals = ["breakfast", "lunch", "dinner"];
 class Planner extends Component {
-
-    state = {
-        user: null,
-        foods: [{ title: "pizza", ingredients: ["pizza"], steps: ["make pizza"] }, { title: "cereal", ingredients: ["cereal"], steps: ["make cereal"] }],
-        date: new Date(),
-        breakfast: [],
-        lunch: [],
-        dinner: [],
-        recipe: {
-            title: "",
-            steps: [],
-            ingredients: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null,
+            foods: [{ title: "pizza", ingredients: ["pizza"], steps: ["make pizza"] }, { title: "cereal", ingredients: ["cereal"], steps: ["make cereal"] }],
+            date: new Date(),
+            breakfast: [],
+            lunch: [],
+            dinner: [],
+            recipe: {
+                title: "",
+                steps: [],
+                ingredients: []
+            }
         }
     }
 
@@ -172,30 +174,30 @@ class Planner extends Component {
                 </div>
 
                 <form className="container-fluid" onSubmit={this.addFood}>
-                  <div className="row">
-                  <select className="btn btn-outline-dark col" name="food" id="food">
-                        {
-                            this.state.foods.map((val, key) => {
-                                return <option key={key} value={val.title}>{val.title}</option>
-                            })
-                        }
-                    </select>
-                    <span className="btn"> For </span>
-                    <select className="btn btn-outline-dark col" name="meal" id="meal">
-                        {
-                            meals.map((val, key) => {
-                                return <option key={key} value={val}>{val}</option>
-                            })
-                        }
-                    </select>
+                    <div className="row">
+                        <select className="btn btn-outline-dark col" name="food" id="food">
+                            {
+                                this.state.foods.map((val, key) => {
+                                    return <option key={key} value={val.title}>{val.title}</option>
+                                })
+                            }
+                        </select>
+                        <span className="btn"> For </span>
+                        <select className="btn btn-outline-dark col" name="meal" id="meal">
+                            {
+                                meals.map((val, key) => {
+                                    return <option key={key} value={val}>{val}</option>
+                                })
+                            }
+                        </select>
 
 
-                    <input className="btn col float-right btn-outline-dark" type="submit" value="Add"></input>
+                        <input className="btn col float-right btn-outline-dark" type="submit" value="Add"></input>
 
-                  </div>
+                    </div>
                 </form>
 
-                <RecipeModal recipe={this.state.recipe}/>
+                <RecipeModal recipe={this.state.recipe} />
                 <div className="bg-info row">
                     <div className="btn mx-auto col-12">Breakfast:</div>
                     {

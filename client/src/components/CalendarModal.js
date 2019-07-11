@@ -36,7 +36,7 @@ class CalendarModal extends Component {
             for(let k = 0; k < 7 ; k++){
                 let currentDay = newDate.getUTCDay();
                 let distance = k - currentDay;
-                if(distance != 0){
+                if(distance !== 0){
                   newDate.setUTCDate(newDate.getUTCDate + distance);
                 }
                 let matchingDays = this.state.days.filter((val) => {
@@ -46,7 +46,7 @@ class CalendarModal extends Component {
                 if(matchingDays.length){
                    children.push(<td>{newDate.getUTCDate() + matchingDays[0]._id}</td>);
                 }else{
-                   children.push(<td>{k}</td>);
+                   children.push(<td>{newDate.getUTCDate()}</td>);
                 }
                 newDate.setUTCDate(newDate.getUTCDate() + 1);
 
