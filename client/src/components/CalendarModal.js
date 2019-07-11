@@ -34,17 +34,22 @@ class CalendarModal extends Component {
          for(let i= 0; i < 5 ; i++){
             let children = [];
             for(let k = 0; k < 7 ; k++){
-                
+                let currentDay = newDate.getUTCDay();
+                let distance = k - currentDay;
+                if(distance != 0){
+                  newDate.setUTCDate(newDate.getUTCDate + distance);
+                }
                 let matchingDays = this.state.days.filter((val) => {
                     return val.date === this.format(newDate)
                 });
                 
                 if(matchingDays.length){
-                   children.push(<td>{matchingDays[0]._id}</td>);
+                   children.push(<td>{newDate.getUTCDate() + matchingDays[0]._id}</td>);
                 }else{
-                   children.push(<td></td>);
+                   children.push(<td>{k}</td>);
                 }
-                newDate.setDate(newDate.getDate() + 1);
+                newDate.setUTCDate(newDate.getUTCDate() + 1);
+
             }
             calHTML.push(<tr>{children}</tr>);
          }
@@ -62,13 +67,13 @@ class CalendarModal extends Component {
     changeDate = (e) => {
         e.preventDefault();
         let newDate = this.state.date;
-        newDate.setDate(1);
+        newDate.setUTCDate(1);
 
         console.log(e.target.id);
         if (e.target.id === "<") {
-            newDate.setMonth(newDate.getMonth() - 1);
+            newDate.setUTCMonth(newDate.getUTCMonth() - 1);
         } else {
-            newDate.setMonth(newDate.getMonth() + 1);
+            newDate.setUTCMonth(newDate.getUTCMonth() + 1);
         }
         this.setState({
             date: newDate
