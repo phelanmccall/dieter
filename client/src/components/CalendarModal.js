@@ -112,7 +112,7 @@ class CalendarModal extends Component {
        
         return (
             <div>
-                <button type="button" data-toggle="modal" data-target="#cal">Calender</button>
+                <button onClick={this.getMonthPlans} type="button" data-toggle="modal" data-target="#cal">Calender</button>
                 <div className="modal fade" id="cal">
                     <div className="modal-dialog">
                         <div className="modal-content">
