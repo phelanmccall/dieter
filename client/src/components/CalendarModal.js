@@ -36,19 +36,14 @@ class CalendarModal extends Component {
             for(let k = 0; k < 7 ; k++){
                 let currentDay = newDate.getUTCDay();
                 let distance = k - currentDay;
-                console.log("Current Day: " + currentDay);
-                console.log("K: " + k);
-                console.log("Distance: " +  distance);
-                console.log("First date: " + newDate.getUTCDate());
+               
                 if(distance !== 0){
                   newDate.setUTCDate(newDate.getUTCDate() + distance);
                 }
-                console.log("2nd date: " + newDate.getUTCDate());
 
                 let matchingDays = this.state.days.filter((val) => {
                     return val.date === this.format(newDate)
                 });
-                console.log(matchingDays);
                 let bg = curMonth !== newDate.getUTCMonth() ? "bg-danger" : "bg-primary";
                 bg += " border"
                 if(matchingDays.length){
@@ -56,18 +51,16 @@ class CalendarModal extends Component {
                     let ln = matchingDays[0].lunch.length > 0; 
                     let dn = matchingDays[0].dinner.length > 0; 
 
-                   children.push(<td className={bg}>{newDate.getUTCDate()}{bf ? <div className="bg-info">O</div> : ""}{ln ? <div className="bg-success">O</div> : ""}{dn ? <div className="bg-warning">O</div> : ""}</td>);
+                   children.push(<td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>{newDate.getUTCDate()}{bf ? <small className="bg-info">O</small> : ""}{ln ? <small className="bg-success">O</small> : ""}{dn ? <small className="bg-warning">O</small> : ""}</td>);
                 }else{
-                   children.push(<td className={bg}>{newDate.getUTCDate()}</td>);
+                   children.push(<td key={this.format(newDate)} id={this.format(newDate)} onClick={this.changeDate} data-toggle="modal" data-target="#cal" className={bg}>{newDate.getUTCDate()}</td>);
                 }
 
                 newDate.setUTCDate(newDate.getUTCDate() + 1);
 
             }
-            console.log("Children"+ children);
-            calHTML.push(<tr>{children}</tr>);
+            calHTML.push(<tr key={i}>{children}</tr>);
          }
-        console.log(calHTML);
         return (
            calHTML
                 
@@ -81,19 +74,26 @@ class CalendarModal extends Component {
     changeDate = (e) => {
         e.preventDefault();
         let newDate = this.state.date;
-        newDate.setUTCDate(1);
 
         console.log(e.target.id);
         if (e.target.id === "<") {
             newDate.setUTCMonth(newDate.getUTCMonth() - 1);
-        } else {
+            console.log(newDate);
+            this.setState({
+                date: newDate
+            }, this.getMonthPlans());
+    
+        } else if(e.target.id === ">"){
             newDate.setUTCMonth(newDate.getUTCMonth() + 1);
+            console.log(newDate);
+            this.setState({
+                date: newDate
+            }, this.getMonthPlans());
+    
+        } else {
+            this.props.setDate(new Date(e.target.id));
         }
-        console.log(newDate);
-        this.setState({
-            date: newDate
-        }, this.getMonthPlans());
-
+       
     }
 
     format = (date) => {

@@ -73,6 +73,12 @@ class Planner extends Component {
         }, this.getToday);
 
     }
+    setDate = (date) => {
+        this.setState({
+            date: date
+        }, this.getToday());
+    }
+
     getUserInfo = () => {
 
         this.getRecipes();
@@ -169,7 +175,7 @@ class Planner extends Component {
                     {
                         date ? <div className="col-12 m-auto btn">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
-                    <CalendarModal date={date} />
+                    <CalendarModal date={date} setDate={this.setDate}/>
 
                 </div>
 
