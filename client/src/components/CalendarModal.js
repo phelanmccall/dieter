@@ -105,7 +105,7 @@ class CalendarModal extends Component {
                                     </thead>
                                     <tbody>
                                                 {
-                                            this.showCal();
+                                            this.showCal()
                                             }
                                     </tbody>
                                 </table>
