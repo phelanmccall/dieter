@@ -126,7 +126,7 @@ class SearchRecipes extends Component {
                 elements[i].className += " btn-dark";
             }
         }
-        e.target.className.replace("btn-dark", "");
+        e.target.classList.remove("btn-dark");
         this.state.lastSearch(e);
     }
 
@@ -162,7 +162,7 @@ class SearchRecipes extends Component {
 
                     {
                         this.state.recipes.map((val, key) => {
-                            return (<div key={key}  className="col-6 m-1" onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display">
+                            return (<div key={key}  className="col-5 m-1" onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display">
 
                                 <img data-recipe-id={val.id} className="img-fluid" style={{"max-height":"20vh"}} src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
