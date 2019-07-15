@@ -33,6 +33,22 @@
   }
 }
 
+
+#myVideo {
+  background-attachment: fixed;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: -1000;
+}
+.result {
+  max-height: 50vh;
+  overflow: hidden;
+  margin: 1vh auto;
+}
+
 .searchThumb {
   max-height: 20vh;
 }
@@ -44,16 +60,5 @@
 
 .searchThumb img p {
   font-size: auto;
-}
-
-
-#myVideo {
-  background-attachment: fixed;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100vw;
-  min-height: 100vh;
-  z-index: -1000;
 }
 

@@ -13,8 +13,3 @@ code {
     monospace;
 }
 
-.result {
-  max-height: 50vh;
-  overflow: hidden;
-  margin: 1vh auto;
-}
