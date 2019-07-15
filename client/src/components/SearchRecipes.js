@@ -25,16 +25,16 @@ class SearchRecipes extends Component {
             [e.target.id]: e.target.value
         })
     }
-    
+
     getByIngredients = (e) => {
         e.preventDefault();
         let offset = "";
-        if(parseInt(e.target.id) >= 10){
+        if (parseInt(e.target.id) >= 10) {
             offset = "/" + e.target.id;
         }
-        let ingredients = this.state.ing.split(/[\s\W,]+/).slice(0, 5).join("%2B"); 
+        let ingredients = this.state.ing.split(/[\s\W,]+/).slice(0, 5).join("%2B");
         console.log(ingredients);
-        if(e.target.id){
+        if (e.target.id) {
 
         }
         Axios.get("/getRecipesByIngredients" + offset, {
@@ -51,7 +51,7 @@ class SearchRecipes extends Component {
                 }],
                 lastSearch: this.getByIngredients
             })
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
             this.setState({
                 recipes: [{
@@ -68,7 +68,7 @@ class SearchRecipes extends Component {
     getByPhrase = (e) => {
         e.preventDefault();
         let offset = "";
-        if(parseInt(e.target.id) >= 10){
+        if (parseInt(e.target.id) >= 10) {
             offset = "/" + e.target.id;
         }
         let phrase = this.state.phrase.split(/[\s\W,]+/).slice(0, 5).join("%2B");
@@ -88,7 +88,7 @@ class SearchRecipes extends Component {
                 }],
                 lastSearch: this.getByPhrase
             })
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
             this.setState({
                 recipes: [{
@@ -116,6 +116,15 @@ class SearchRecipes extends Component {
         }).catch((err) => {
             console.log(err);
         })
+    }
+
+    changePage = (e) => {
+        
+        document.getElementsByClassName("page").map((val)=>{
+            val.className.add("btn-dark");
+        });
+        e.target.className.remove("btn-dark");
+        this.state.lastSearch(e);
     }
 
 
@@ -150,28 +159,40 @@ class SearchRecipes extends Component {
 
                     {
                         this.state.recipes.map((val, key) => {
-                            return (<div key={key} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display" className="searchThumb">
+                            return (<div key={key}  className="col-6" style={{"max-height":"20vh"}} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display">
 
                                 <img data-recipe-id={val.id} className="img-fluid" src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
-                                <p data-recipe-id={val.id} className="carousel-caption" style={{ "left": "5%", "right": "5%", "bottom": "0", "background-color": "rgba(0,0,0,.5)" }}>{val.title}</p>
+                                <div data-recipe-id={val.id}
+                                    className="carousel-caption"
+                                    style={{
+                                        "left": "5%",
+                                        "right": "5%",
+                                        "bottom": "0",
+                                        "background-color": "rgba(0,0,0,.5)",
+                                        "font-size": "auto"
+                                    }}
+                                >
+                                    {val.title}
+                                </div>
 
                             </div>);
                         })
                     }
-                  
+
                 </div>
                 {
-                        typeof this.state.lastSearch != "string" ? 
+                    typeof this.state.lastSearch != "string" ?
                         <div className="row">
-                            <button onClick={this.state.lastSearch} id="10" className="btn col-2 m-auto">1</button > 
-                            <button onClick={this.state.lastSearch} id="20" className="btn col-2 m-auto">2</button > 
-                            <button onClick={this.state.lastSearch} id="30" className="btn col-2 m-auto">3</button > 
-                            <button onClick={this.state.lastSearch} id="40" className="btn col-2 m-auto">4</button > 
-                            <button onClick={this.state.lastSearch} id="50" className="btn col-2 m-auto">5</button >
+                            <button onClick={this.changePage} id="0" className="page btn btn-dark col-2 m-auto">0</button >
+                            <button onClick={this.changePage} id="10" className="page btn btn-dark col-2 m-auto">1</button >
+                            <button onClick={this.changePage} id="20" className="page btn btn-dark col-2 m-auto">2</button >
+                            <button onClick={this.changePage} id="30" className="page btn btn-dark col-2 m-auto">3</button >
+                            <button onClick={this.changePage} id="40" className="page btn btn-dark col-2 m-auto">4</button >
+                            <button onClick={this.changePage} id="50" className="page btn btn-dark col-2 m-auto">5</button >
                         </div> :
-                        ""    
-                    }
+                        ""
+                }
 
             </div>
         );
