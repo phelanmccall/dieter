@@ -8,7 +8,7 @@ const passport = require("passport");
 router.use(function (req, res, next) {
   var { path } = req;
   var base = "/" + path.split("/")[1];
-  
+
 
   switch (base) {
     case "/":
@@ -111,7 +111,7 @@ router.route("/:username")
 router.route("/meals/:date")
   .get(function (req, res) {
     console.log("MEALS/DATE");
-  
+
     db.Plans.findOne({
       user: req.user.username,
       date: req.params.date
@@ -128,19 +128,19 @@ router.route("/meals/:date")
   })
 
 router.route("/meals/:year/:month")
-  .get(function(req, res){
+  .get(function (req, res) {
     console.log("MEALS/YEAR/DAY");
     console.log(req.params);
-    let {year, month} = req.params;
+    let { year, month } = req.params;
     console.log("YEAR: " + year + " MONTH: " + month);
     let dates = [];
-    for(let i = 1; i < 32; i++){
+    for (let i = 1; i < 32; i++) {
       console.log(year + "-" + month + "-" + i < 10 ? "0" : "");
 
       dates.push(`${year}-${month}-${i < 10 ? "0" + i : i}`);
     }
     console.log(dates);
-  
+
     db.Plans.find({
       user: req.user.username,
       date: dates
@@ -206,10 +206,29 @@ router.route("/getRecipesByIngredients")
       res.send(err);
     });
   })
+router.route("/getRecipesByIngredients/:offset")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
+    axios({
+      url: searchURL + req.query.ingredients + "&offset=" + req.params.offset,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
 
 router.route("/getRecipesByPhrase")
   .get(function (req, res) {
-    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?query=";
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?instructionsRequired=true&query=";
     axios({
       url: searchURL + req.query.phrase,
       method: "get",
@@ -226,7 +245,25 @@ router.route("/getRecipesByPhrase")
       res.send(err);
     });
   })
+router.route("/getRecipesByPhrase/:offset")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?number=10&instructionsRequired=true&query=";
+    axios({
+      url: searchURL + req.query.phrase + "&offset=" + req.params.offset ,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
 
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
 
 router.route("/getRecipeById")
   .get(function (req, res) {
@@ -242,8 +279,13 @@ router.route("/getRecipeById")
       console.log(response.data);
 
       let title = response.data.title ? response.data.title : "No title";
-      let steps = response.data.instructions ? 
-        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim())
+      let steps = response.data.instructions ?
+        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => {
+          val.trim()
+          if(val.length){
+            return val;
+          }
+        })
         : [];
 
       console.log(steps);
@@ -277,32 +319,32 @@ router.route("/getRecipeById")
 router.route("/add/recipe")
   .post(function (req, res) {
     let { title, steps, ingredients } = req.body;
-    if(!steps.length){
+    if (!steps.length) {
       res.send("Error: recipe needs atleast one step.")
 
-    }else if(!ingredients.length){
+    } else if (!ingredients.length) {
       res.send("Error: recipe needs atleast one ingredient.")
 
-    }else{
+    } else {
       let user = req.user.username;
 
       let conditions = {
         title,
         user
       };
-  
+
       let update = {
         title,
         steps,
         ingredients,
         user
       }
-  
+
       db.Recipes.findOne(conditions).then((data) => {
         if (data) {
           res.send("Error: recipe title already exists.")
         } else {
-  
+
           db.Recipes.create(update).then((rx) => {
             res.send(rx);
           }).catch((err) => {
@@ -338,9 +380,9 @@ router.route("/add/recipe")
 router.route("/delete/recipe/:id")
   .delete(function (req, res) {
     let id;
-    if(req.params.id === "null"){
+    if (req.params.id === "null") {
       id = req.params.id
-    }else{
+    } else {
       id = null;
     }
 

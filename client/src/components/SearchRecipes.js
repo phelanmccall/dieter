@@ -14,24 +14,51 @@ class SearchRecipes extends Component {
             title: "",
             steps: [],
             ingredients: []
-        }
+        },
+        lastSearch: "",
+        phrase: "",
+        ing: ""
     }
+
+    saveQuery = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+    
     getByIngredients = (e) => {
         e.preventDefault();
-
-        let ingredients = e.target.name.value.split(/[\s\W,]+/).slice(0, 5).join("%2B");
+        let offset = "";
+        if(parseInt(e.target.id) >= 10){
+            offset = "/" + e.target.id;
+        }
+        let ingredients = this.state.ing.split(/[\s\W,]+/).slice(0, 5).join("%2B"); 
         console.log(ingredients);
+        if(e.target.id){
 
-        Axios.get("/getRecipesByIngredients", {
+        }
+        Axios.get("/getRecipesByIngredients" + offset, {
             params: {
                 ingredients: ingredients
             }
         }).then((response) => {
             console.log(response.data);
             this.setState({
-                recipes: response.data.length ? response.data : [{title: "No results",
-                                                                                 image: "https://via.placeholder.com/250x300",
-                                                                                 id:""}]
+                recipes: response.data.length ? response.data : [{
+                    title: "No results",
+                    image: "https://via.placeholder.com/250x300",
+                    id: ""
+                }],
+                lastSearch: this.getByIngredients
+            })
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                recipes: [{
+                    title: "No results",
+                    image: "https://via.placeholder.com/250x300",
+                    id: ""
+                }]
             })
         })
 
@@ -40,22 +67,38 @@ class SearchRecipes extends Component {
 
     getByPhrase = (e) => {
         e.preventDefault();
-
-        let phrase = e.target.name.value.split(/[\s\W,]+/).slice(0, 5).join("%2B");
+        let offset = "";
+        if(parseInt(e.target.id) >= 10){
+            offset = "/" + e.target.id;
+        }
+        let phrase = this.state.phrase.split(/[\s\W,]+/).slice(0, 5).join("%2B");
         console.log(phrase);
 
-        Axios.get("/getRecipesByPhrase", {
+        Axios.get("/getRecipesByPhrase" + offset, {
             params: {
                 phrase: phrase
             }
         }).then((response) => {
             console.log(response.data.results);
             this.setState({
-                recipes: response.data.results.length ? response.data.results : [{title: "No results",
-                                                                                 image: "https://via.placeholder.com/250x300",
-                                                                                 id:""}]
+                recipes: response.data.results.length ? response.data.results : [{
+                    title: "No results",
+                    image: "https://via.placeholder.com/250x300",
+                    id: ""
+                }],
+                lastSearch: this.getByPhrase
+            })
+        }).catch((err)=>{
+            console.log(err);
+            this.setState({
+                recipes: [{
+                    title: "No results",
+                    image: "https://via.placeholder.com/250x300",
+                    id: ""
+                }]
             })
         })
+
 
     }
 
@@ -86,7 +129,7 @@ class SearchRecipes extends Component {
                     <form className="m-auto btn col-12 col-lg-6" onSubmit={this.getByPhrase}>
                         <label>Find recipes by phrase</label>
                         <br />
-                        <input type="search" className="btn border" name="name" />
+                        <input type="search" id="phrase" className="btn border" onChange={this.saveQuery} name="name" />
 
                         <input className="btn btn-info" type="submit" value="Search" />
                     </form>
@@ -94,7 +137,7 @@ class SearchRecipes extends Component {
                     <form className="m-auto btn col-12 col-lg-6" onSubmit={this.getByIngredients}>
                         <label>Find recipes by ingredient</label>
                         <br />
-                        <input type="search" className="btn border" name="name" />
+                        <input type="search" id="ing" className="btn border" onChange={this.saveQuery} name="name" />
 
                         <input className="btn btn-info" type="submit" value="Search" />
                     </form>
@@ -111,11 +154,26 @@ class SearchRecipes extends Component {
 
                                 <img data-recipe-id={val.id} className="img-fluid" src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
-                                <h5 data-recipe-id={val.id} className="carousel-caption" style={{ "left": "5%", "right": "5%", "bottom":"0", "background-color": "rgba(0,0,0,.5)" }}>{val.title}</h5>
+                                <p data-recipe-id={val.id} className="carousel-caption" style={{ "left": "5%", "right": "5%", "bottom": "0", "background-color": "rgba(0,0,0,.5)" }}>{val.title}</p>
 
                             </div>);
                         })
                     }
+                    {
+                        typeof this.state.lastSearch != "string" ? 
+                        <div>
+                            <button onClick={this.state.lastSearch} id="10" className="btn">1</button > 
+                            <button onClick={this.state.lastSearch} id="20" className="btn">2</button > 
+                            <button onClick={this.state.lastSearch} id="30" className="btn">3</button > 
+                            <button onClick={this.state.lastSearch} id="40" className="btn">4</button > 
+                            <button onClick={this.state.lastSearch} id="50" className="btn">5</button >
+                        </div> :
+                        ""    
+                    }
+
+                </div>
+                <div>
+                    
                 </div>
             </div>
         );
