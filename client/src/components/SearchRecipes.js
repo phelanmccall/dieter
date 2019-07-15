@@ -122,10 +122,11 @@ class SearchRecipes extends Component {
         
         let elements = document.getElementsByClassName("page");
         for(let i = 0; i < elements.length; i++){
-            elements[i].className.add("btn-dark");
-
+            if(elements[i].className.indexOf("btn-dar") == -1){
+                elements[i].className += " btn-dark";
+            }
         }
-        e.target.className.remove("btn-dark");
+        e.target.className.replace("btn-dark", "");
         this.state.lastSearch(e);
     }
 
