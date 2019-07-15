@@ -159,9 +159,9 @@ class SearchRecipes extends Component {
 
                     {
                         this.state.recipes.map((val, key) => {
-                            return (<div key={key}  className="col-6" style={{"max-height":"20vh"}} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display">
+                            return (<div key={key}  className="col-6" onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display">
 
-                                <img data-recipe-id={val.id} className="img-fluid" src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
+                                <img data-recipe-id={val.id} className="img-fluid" style={{"max-height":"20vh"}} src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
                                 <div data-recipe-id={val.id}
                                     className="carousel-caption"
@@ -184,7 +184,7 @@ class SearchRecipes extends Component {
                 {
                     typeof this.state.lastSearch != "string" ?
                         <div className="row">
-                            <button onClick={this.changePage} id="0" className="page btn btn-dark col-2 m-auto">0</button >
+                            <button onClick={this.changePage} id="0" className="page btn col-2 m-auto">0</button >
                             <button onClick={this.changePage} id="10" className="page btn btn-dark col-2 m-auto">1</button >
                             <button onClick={this.changePage} id="20" className="page btn btn-dark col-2 m-auto">2</button >
                             <button onClick={this.changePage} id="30" className="page btn btn-dark col-2 m-auto">3</button >
