@@ -280,12 +280,7 @@ router.route("/getRecipeById")
 
       let title = response.data.title ? response.data.title : "No title";
       let steps = response.data.instructions ?
-        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => {
-          val.trim()
-          if(val.length){
-            return val;
-          }
-        })
+        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim()).filter((val) => val.length)
         : [];
 
       console.log(steps);

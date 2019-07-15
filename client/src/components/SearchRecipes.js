@@ -150,7 +150,7 @@ class SearchRecipes extends Component {
 
                     {
                         this.state.recipes.map((val, key) => {
-                            return (<div key={key} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display" className="col-6 col-lg-4">
+                            return (<div key={key} onClick={this.viewRecipe} data-recipe-id={val.id} data-toggle="modal" data-target="#display" className="searchThumb">
 
                                 <img data-recipe-id={val.id} className="img-fluid" src={val.image.includes("http") ? val.image : "https://spoonacular.com/recipeImages/" + val.image} alt={val.title}></img>
 
@@ -159,22 +159,20 @@ class SearchRecipes extends Component {
                             </div>);
                         })
                     }
-                    {
+                  
+                </div>
+                {
                         typeof this.state.lastSearch != "string" ? 
-                        <div>
-                            <button onClick={this.state.lastSearch} id="10" className="btn">1</button > 
-                            <button onClick={this.state.lastSearch} id="20" className="btn">2</button > 
-                            <button onClick={this.state.lastSearch} id="30" className="btn">3</button > 
-                            <button onClick={this.state.lastSearch} id="40" className="btn">4</button > 
-                            <button onClick={this.state.lastSearch} id="50" className="btn">5</button >
+                        <div className="row">
+                            <button onClick={this.state.lastSearch} id="10" className="btn col-2 m-auto">1</button > 
+                            <button onClick={this.state.lastSearch} id="20" className="btn col-2 m-auto">2</button > 
+                            <button onClick={this.state.lastSearch} id="30" className="btn col-2 m-auto">3</button > 
+                            <button onClick={this.state.lastSearch} id="40" className="btn col-2 m-auto">4</button > 
+                            <button onClick={this.state.lastSearch} id="50" className="btn col-2 m-auto">5</button >
                         </div> :
                         ""    
                     }
 
-                </div>
-                <div>
-                    
-                </div>
             </div>
         );
     }

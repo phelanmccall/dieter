@@ -115,14 +115,14 @@ class CalendarModal extends Component {
        
         return (
             <div>
-                <button onClick={this.getMonthPlans} type="button" data-toggle="modal" data-target="#cal">Calender</button>
+                <button className="btn" onClick={this.getMonthPlans} type="button" data-toggle="modal" data-target="#cal">Calender</button>
                 <div className="modal fade" id="cal">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
 
                                 <button onClick={this.changeDate} id="<" className="mr-0 btn btn-secondary  " type="button" >{"<"}</button>
-                                <div id="month" className="d-inline d-block btn" >{months[this.state.date.getUTCMonth()]}</div>
+                                <div id="month" className="d-inline d-block btn" >{months[this.state.date.getUTCMonth()]} {this.state.date.getUTCFullYear()}</div>
                                 <button onClick={this.changeDate} id=">" className="ml-0 btn btn-secondary  " type="button" >{">"}</button>
 
                             </div>
