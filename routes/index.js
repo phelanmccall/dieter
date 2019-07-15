@@ -343,9 +343,9 @@ router.route("/delete/recipe/:id")
     }else{
       id = null;
     }
-    
+
     db.Recipes.findOneAndRemove({
-      _id: req.params.id,
+      _id: id,
       user: req.user.username
     }).then((rx) => {
 
