@@ -4,14 +4,29 @@ import axios from "axios";
 class AddRecipes extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            id: this.props.recipe ? this.props.recipe._id : "",
-            title: this.props.recipe ? this.props.recipe.title : "",
-            steps: this.props.recipe ? this.props.recipe.steps : [],
-            ingredients: this.props.recipe ? this.props.recipe.ingredients : [],
-            method: this.props.recipe ? "put" : "post",
-            titleErr: null
+        console.log(this.props.recipe);
+
+        if(this.props.recipe && this.props.recipe._id !== undefined){
+            this.state = {
+                id: this.props.recipe._id,
+                title: this.props.recipe.title,
+                steps: this.props.recipe.steps,
+                ingredients: this.props.recipe.ingredients,
+                method: "put",
+                titleErr: null
+            }
+        } else {
+         
+            this.state = {
+                id: null,
+                title: "",
+                steps: [],
+                ingredients: [],
+                method: "post",
+                titleErr: null
+            }
         }
+      
     }
 
 
@@ -53,8 +68,9 @@ class AddRecipes extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let arr = [...this.state[e.target.id], e.target.name.value];
         console.log(e.target.id)
+        console.log(this.state)
+        let arr = [...this.state[e.target.id], e.target.name.value];
         this.setState({
             [e.target.id]: arr
         }, function () {
@@ -151,7 +167,7 @@ class AddRecipes extends Component {
                     <label className="btn">Title: </label>
                     <input className="btn btn-outline-dark" name="title" onChange={this.handleChange} value={this.state.title}></input>
                     <br />
-                    <div className="text-danger">{this.state.titleErr}</div>
+                    <div     className="text-danger">{this.state.titleErr}</div >
                 </div>
 
                 <form className=" border-top border-dark" id="ingredients" onSubmit={this.handleSubmit}>
@@ -162,13 +178,13 @@ class AddRecipes extends Component {
 
                 <div className="row">
                     {
-                        this.state.ingredients.map((val, key) => {
+                        this.state.ingredients ? this.state.ingredients.map((val, key) => {
                             return <div className="col-12 justify-content-center" key={key}>
                                 <button className="btn btn-outline-dark float-left" name="ingredients" id={key} onClick={this.editThis} data={val}>Edit</button>
                                 <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteItem}>Delete</button>
                             </div>
-                        })
+                        }) : ""
                     }
 
 
@@ -184,13 +200,13 @@ class AddRecipes extends Component {
 
                 <div className="row">
                     {
-                        this.state.steps.map((val, key) => {
+                        this.state.steps ? this.state.steps.map((val, key) => {
                             return <div className="col-12 justify-content-center" key={key}>
                                 <button className="btn btn-outline-dark float-left" name="steps" id={key} onClick={this.editThis} data={val}>Edit</button>
                                 <div className="btn mx-auto col-6">{val}</div>
                                 <button className="btn btn-outline-dark float-right" id={key} onClick={this.deleteStep}>Delete</button>
                             </div>
-                        })
+                        }) : ""
                     }
                 </div>
 

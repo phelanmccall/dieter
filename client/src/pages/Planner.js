@@ -1,23 +1,27 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
+import RecipeModal from "../components/RecipeModal";
+import CalendarModal from "../components/CalendarModal";
 import Axios from "axios";
 
 var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var meals = ["breakfast", "lunch", "dinner"];
 class Planner extends Component {
-
-    state = {
-        user: null,
-        foods: [{ title: "pizza", ingredients: ["pizza"], steps: ["make pizza"] }, { title: "cereal", ingredients: ["cereal"], steps: ["make cereal"] }],
-        date: new Date(),
-        breakfast: [],
-        lunch: [],
-        dinner: [],
-        recipe: {
-            title: "",
-            steps: [],
-            ingredients: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null,
+            foods: [{ title: "pizza", ingredients: ["pizza"], steps: ["make pizza"] }, { title: "cereal", ingredients: ["cereal"], steps: ["make cereal"] }],
+            date: new Date(),
+            breakfast: [],
+            lunch: [],
+            dinner: [],
+            recipe: {
+                title: "",
+                steps: [],
+                ingredients: []
+            }
         }
     }
 
@@ -69,6 +73,12 @@ class Planner extends Component {
         }, this.getToday);
 
     }
+    setDate = (date) => {
+        this.setState({
+            date: date
+        }, this.getToday);
+    }
+
     getUserInfo = () => {
 
         this.getRecipes();
@@ -152,8 +162,9 @@ class Planner extends Component {
 
     render() {
         var { date } = this.state;
-        console.log(this.state)
+        console.log(this.state.foods)
         console.log(this.format(date));
+        
         return (
             <div className="container-fluid">
                 <Navbar />
@@ -165,70 +176,35 @@ class Planner extends Component {
                     {
                         date ? <div className="col-12 m-auto btn">{weekdays[date.getUTCDay()]}, {months[date.getUTCMonth()]} {date.getUTCDate()}, {date.getFullYear()}</div> : <div></div>
                     }
+                    <CalendarModal date={date} setDate={this.setDate}/>
 
                 </div>
 
                 <form className="container-fluid" onSubmit={this.addFood}>
-                  <div className="row">
-                  <select className="btn btn-outline-dark col" name="food" id="food">
-                        {
-                            this.state.foods.map((val, key) => {
-                                return <option key={key} value={val.title}>{val.title}</option>
-                            })
-                        }
-                    </select>
-                    <span className="btn"> For </span>
-                    <select className="btn btn-outline-dark col" name="meal" id="meal">
-                        {
-                            meals.map((val, key) => {
-                                return <option key={key} value={val}>{val}</option>
-                            })
-                        }
-                    </select>
+                    <div className="row">
+                        <select className="btn btn-outline-dark col" name="food" id="food">
+                            {
+                                this.state.foods.map((val, key) => {
+                                    return <option key={key} value={val.title}>{val.title}</option>
+                                })
+                            }
+                        </select>
+                        <span className="btn"> For </span>
+                        <select className="btn btn-outline-dark col" name="meal" id="meal">
+                            {
+                                meals.map((val, key) => {
+                                    return <option key={key} value={val}>{val}</option>
+                                })
+                            }
+                        </select>
 
 
-                    <input className="btn col float-right btn-outline-dark" type="submit" value="Add"></input>
-
-                  </div>
-                </form>
-
-                <div className="modal fade" id="display" role="dialog">
-                    <div className="modal-dialog">
-
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h4 className="modal-title m-auto">{this.state.recipe.title}</h4>
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-
-                            </div>
-                            <div className="modal-body">
-                                <div>Ingredients:</div>
-                                <ul>
-                                    {
-                                        this.state.recipe.ingredients.map((val, key) => {
-                                            return <li key={key}>{val}</li>
-                                        })
-                                    }
-                                </ul>
-                            </div>
-                            <div className="modal-body">
-                                <div>Steps:</div>
-                                <ol>
-                                    {
-                                        this.state.recipe.steps.map((val, key) => {
-                                            return <li key={key}>{val}</li>
-                                        })
-                                    }
-                                </ol>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
+                        <input className="btn col float-right btn-outline-dark" type="submit" value="Add"></input>
 
                     </div>
-                </div>
+                </form>
 
+                <RecipeModal recipe={this.state.recipe} />
                 <div className="bg-info row">
                     <div className="btn mx-auto col-12">Breakfast:</div>
                     {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import AddRecipes from "./AddRecipes";
 import Navbar from "../components/Navbar";
+import SearchRecipes from "../components/SearchRecipes";
 
 class Recipes extends Component {
 
@@ -21,12 +22,12 @@ class Recipes extends Component {
         Axios.get("/myRecipes").then((response) => {
             console.log(response.data);
             this.setState({
-                recipes: response.data
+                recipes: response.data.length ? response.data : []
             })
         }).catch((err) => {
             console.log(err);
         })
-    }
+    }   
 
     componentWillMount() {
         this.updateRecipes();
@@ -34,7 +35,7 @@ class Recipes extends Component {
     }
 
     render() {
-        console.log(this.state.add);
+        console.log(this.state.selected);
 
         return (
             <div className="container-fluid">
@@ -46,16 +47,22 @@ class Recipes extends Component {
                         :
                         <div className="container-fluid">
                             <div className="row">
-                            <button className="btn btn-success col-6 my-3 mx-auto" onClick={
-                                this.toggle
-                            }>ADD</button>
+                            <button className="btn btn-success col-6 my-3 mx-auto" onClick={(e) => {
+                                        e.preventDefault();
+                                        console.log(e.target);
+                                        this.setState({
+                                            selected: {}
+                                        }, () => {
+                                            this.toggle(e);
+                                        })
+                                    }}>ADD</button>
                             </div>
                             <div className="row justify-content-center">
                             {
                                 this.state.recipes.map((val, key) => {
                                     return <button className="btn btn-outline-dark btn-info my-1 mx-2 " onClick={(e) => {
                                         e.preventDefault();
-                                        console.log(e.target);
+                                        console.log(this.state.recipes[e.target.id]);
                                         this.setState({
                                             selected: this.state.recipes[e.target.id]
                                         }, () => {
@@ -65,8 +72,13 @@ class Recipes extends Component {
                                 })
                             }
                             </div>
+
+                            <SearchRecipes refresh={this.updateRecipes} />
                         </div>
+
+                    
                 }
+
             </div>
         );
     }

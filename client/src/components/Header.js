@@ -21,7 +21,6 @@ class Header extends Component {
     }
 
     render() {
-        console.log(window.location.pathname);
         return (
             <nav className="navbar navbar-dark bg-dark">
                 <div className="navbar-brand btn">Meal Planner</div>

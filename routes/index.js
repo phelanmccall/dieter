@@ -2,16 +2,13 @@ const path = require("path");
 const router = require("express").Router();
 const db = require("../models");
 const bcrypt = require("bcrypt-nodejs");
-
+const axios = require("axios");
 require("../controller/passport");
 const passport = require("passport");
 router.use(function (req, res, next) {
   var { path } = req;
   var base = "/" + path.split("/")[1];
-  var date;
-  if (base === "/meals") {
-    date = path.split("/")[2];
-  }
+
 
   switch (base) {
     case "/":
@@ -97,46 +94,79 @@ router.route("/logout").get(function (req, res) {
 });
 
 router.route("/:username")
-  .delete(function(req, res){
-    if(req.user.username === req.params.username){
+  .delete(function (req, res) {
+    if (req.user.username === req.params.username) {
       db.Auths.deleteOne({
         username: req.user.username
-      }).then((doc)=>{
+      }).then((doc) => {
         console.log("Deleted: " + doc);
         res.send(doc);
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err);
         res.send(err);
       })
     }
-   
+
   })
-router.route("/meals/:date").get(function (req, res) {
-  db.Plans.findOne({
-    user: req.user.username,
-    date: req.params.date
-  }).then((plan) => {
-    if(plan){
-      res.send(plan);
-    }else{
-      res.send({breakfast:[],lunch:[], dinner:[]});
+router.route("/meals/:date")
+  .get(function (req, res) {
+    console.log("MEALS/DATE");
+
+    db.Plans.findOne({
+      user: req.user.username,
+      date: req.params.date
+    }).then((plan) => {
+      if (plan) {
+        res.send(plan);
+      } else {
+        res.send({ breakfast: [], lunch: [], dinner: [] });
+      }
+    }).catch((err) => {
+      console.log(err);
+      res.status(404).send();
+    })
+  })
+
+router.route("/meals/:year/:month")
+  .get(function (req, res) {
+    console.log("MEALS/YEAR/DAY");
+    console.log(req.params);
+    let { year, month } = req.params;
+    console.log("YEAR: " + year + " MONTH: " + month);
+    let dates = [];
+    for (let i = 1; i < 32; i++) {
+      console.log(year + "-" + month + "-" + i < 10 ? "0" : "");
+
+      dates.push(`${year}-${month}-${i < 10 ? "0" + i : i}`);
     }
-  }).catch((err) => {
-    console.log(err);
-    res.status(404).send();
+    console.log(dates);
+
+    db.Plans.find({
+      user: req.user.username,
+      date: dates
+    }).then((plans) => {
+      if (plans) {
+        console.log(plans);
+        res.send(plans);
+      } else {
+        res.send([]);
+      }
+    }).catch((err) => {
+      console.log(err);
+      res.status(404).send();
+    })
   })
-})
 
 router.route("/add/plans")
   .post(function (req, res) {
-    let {date, breakfast, lunch, dinner} = req.body;
+    let { date, breakfast, lunch, dinner } = req.body;
     let user = req.user.username;
 
     db.Plans.findOneAndUpdate({
       date,
       user
     },
-      {breakfast,lunch,dinner},
+      { breakfast, lunch, dinner },
       {
         upsert: true,
         returnNewDocument: true
@@ -157,7 +187,121 @@ router.route("/myRecipes")
       res.send(err);
     })
   })
+router.route("/getRecipesByIngredients")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
+    axios({
+      url: searchURL + req.query.ingredients,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
 
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
+router.route("/getRecipesByIngredients/:offset")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=10&ranking=1&ignorePantry=false&ingredients=";
+    axios({
+      url: searchURL + req.query.ingredients + "&offset=" + req.params.offset,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
+
+router.route("/getRecipesByPhrase")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?instructionsRequired=true&query=";
+    axios({
+      url: searchURL + req.query.phrase,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
+router.route("/getRecipesByPhrase/:offset")
+  .get(function (req, res) {
+    let searchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?number=10&instructionsRequired=true&query=";
+    axios({
+      url: searchURL + req.query.phrase + "&offset=" + req.params.offset ,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      res.send(response.data);
+    }).catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  })
+
+router.route("/getRecipeById")
+  .get(function (req, res) {
+    let searchURL = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${req.query.id}/information`;
+    axios({
+      url: searchURL,
+      method: "get",
+      headers: {
+        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.RAPID_KEY
+      }
+    }).then((response) => {
+      console.log(response.data);
+
+      let title = response.data.title ? response.data.title : "No title";
+      let steps = response.data.instructions ?
+        response.data.instructions.replace(/[\r\n]/, " ").split(".").map((val) => val.trim()).filter((val) => val.length)
+        : [];
+
+      console.log(steps);
+      let ingredients = response.data.extendedIngredients.map(function (val, ind) {
+        return val.originalString;
+      })
+      let formatted = {
+        title,
+        steps,
+        ingredients
+      }
+      res.send(formatted);
+    }).catch((err) => {
+      console.log(err)
+      res.send({
+        title: "Error",
+        steps: ["Error"],
+        ingredients: ["Error"]
+      });
+    });
+  })
 // router.route("/all/recipes")
 //   .get(function (req, res) {
 //     db.Recipes.find().then((data) => {
@@ -170,34 +314,42 @@ router.route("/myRecipes")
 router.route("/add/recipe")
   .post(function (req, res) {
     let { title, steps, ingredients } = req.body;
-    let user = req.user.username;
+    if (!steps.length) {
+      res.send("Error: recipe needs atleast one step.")
 
-    let conditions = {
-      title,
-      user
-    };
+    } else if (!ingredients.length) {
+      res.send("Error: recipe needs atleast one ingredient.")
 
-    let update = {
-      title,
-      steps,
-      ingredients,
-      user
-    }
+    } else {
+      let user = req.user.username;
 
-    db.Recipes.findOne(conditions).then((data) => {
-      if (data) {
-        res.send("Error: recipe title already exists.")
-      } else {
+      let conditions = {
+        title,
+        user
+      };
 
-        db.Recipes.create(update).then((rx) => {
-          res.send(rx);
-        }).catch((err) => {
-          res.send(err);
-        })
+      let update = {
+        title,
+        steps,
+        ingredients,
+        user
       }
-    }).catch((err) => {
-      res.send(err);
-    })
+
+      db.Recipes.findOne(conditions).then((data) => {
+        if (data) {
+          res.send("Error: recipe title already exists.")
+        } else {
+
+          db.Recipes.create(update).then((rx) => {
+            res.send(rx);
+          }).catch((err) => {
+            res.send(err);
+          })
+        }
+      }).catch((err) => {
+        res.send(err);
+      })
+    }
   })
   .put(function (req, res) {
     let { id, title, steps, ingredients } = req.body;
@@ -222,10 +374,18 @@ router.route("/add/recipe")
 
 router.route("/delete/recipe/:id")
   .delete(function (req, res) {
+    let id;
+    if (req.params.id === "null") {
+      id = req.params.id
+    } else {
+      id = null;
+    }
+
     db.Recipes.findOneAndRemove({
-      _id: req.params.id,
+      _id: id,
       user: req.user.username
     }).then((rx) => {
+
       res.send(200);
     }).catch((err) => {
       res.send(err);
